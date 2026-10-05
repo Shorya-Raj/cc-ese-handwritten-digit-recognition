@@ -1,7 +1,7 @@
 r"""Step 7: turn one uploaded digit picture into a MNIST-shaped model input.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_07_prepare_upload.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_07_prepare_upload.py
 
 The default demonstration reprocesses our saved MNIST example. You can pass
 the path to a team member's digit photo instead when one is available.

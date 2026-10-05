@@ -1,8 +1,8 @@
-# Understand the handwritten-digit model
+# Handwritten digit model: architecture and data flow
 
-Use this beside the numbered comments in the Python files. In VS Code, put a code file in the left editor column and this guide or `BUILD_JOURNAL.md` in the right column. Read one section, then find the matching `SECTION` comment in the code.
+This document summarizes the image pipeline, CNN architecture, training, and evaluation. Each item maps to a numbered script in the repository.
 
-## 1. The whole job in one picture
+## 1. Image-to-prediction flow
 
 ```text
 One labelled 28 × 28 picture
@@ -18,26 +18,26 @@ Choose the largest score as the predicted digit
 
 During training, the correct digit label tells the model how wrong its scores were. The optimizer changes the model's adjustable values, called **weights**, to reduce that error. After training, an uploaded image goes through preparation and the saved weights to get a prediction. The model does not look up an exact stored picture; it uses learned visual patterns.
 
-## 2. Files to open, in learning order
+## 2. Pipeline scripts
 
 | Stage | File | What to look for |
 | --- | --- | --- |
-| Meet the pictures | `step_01_data.py` | 60,000 training pictures, 10,000 separate test pictures, 28 × 28 size, labels |
+| Inspect the data | `step_01_data.py` | 60,000 training pictures, 10,000 separate test pictures, 28 × 28 size, labels |
 | Prepare numbers | `step_02_prepare_images.py` | Divide pixels by 255 and add the grayscale channel |
 | Build the network | `step_03_model.py` | Each CNN layer and its output shape |
-| Teach the network | `step_04_train.py` | Loss, optimizer, epochs, batches, and validation |
+| Train the network | `step_04_train.py` | Loss, optimizer, epochs, batches, and validation |
 | Measure it | `step_05_evaluate.py` | Held-out test accuracy and specific mistakes |
-| Explain the run | `TRAINING_REPORT.md` | Graphs, tables, baseline comparison, and limits |
+| Explain the run | `MODEL_EVALUATION.md` | Graphs, tables, baseline comparison, and limits |
 | Prepare user images | `step_07_prepare_upload.py` | Crop, invert if needed, resize, center, and scale |
 | Use the model | `step_08_app.py` | Original image, model input, prediction, and labelled examples |
 
-## 3. Understand the data shape
+## 3. Image tensor shapes
 
 `(60000, 28, 28)` means **60,000 pictures**, with 28 rows and 28 columns of pixels per picture. After preparation it becomes `(60000, 28, 28, 1)`. The last `1` means one grayscale color channel. A single picture sent to the model is `(1, 28, 28, 1)`; the first `1` means a batch containing one picture.
 
 Each training picture has a separate integer label, such as `5`. The image contains pixel brightness values; it does not contain the answer inside the pixels. The model learns the connection by seeing many image-label pairs.
 
-MNIST's 60,000-image training set was divided into **54,000 learning pictures** and **6,000 validation pictures**. The separate **10,000 test pictures** were held out until the saved model was evaluated.
+MNIST's 60,000-image training set was divided into **54,000 training images** and **6,000 validation pictures**. The separate **10,000 test pictures** were held out until the saved model was evaluated.
 
 ## 4. Follow the CNN layer by layer
 
@@ -69,7 +69,7 @@ Pooling, flattening, and dropout change the flow of numbers but do not add learn
 
 ## 5. What happened during training
 
-An **epoch** is one pass through the 54,000 learning pictures. A **batch** is a smaller group; this run used 128 pictures per batch, or about 422 weight updates per epoch. After each epoch, the model was checked on the 6,000 validation pictures without changing its weights from them.
+An **epoch** is one pass through the 54,000 training images. A **batch** is a smaller group; this run used 128 pictures per batch, or about 422 weight updates per epoch. After each epoch, the model was checked on the 6,000 validation pictures without changing its weights from them.
 
 The **loss** measures how wrong the predicted probabilities are. We used sparse categorical cross-entropy because each answer is one integer from 0–9. The **Adam optimizer** adjusted weights to lower training loss. **Accuracy** counts how often the highest-scoring digit matched the label. We tracked both loss and accuracy because accuracy can stay flat while confidence in correct or wrong answers changes.
 
@@ -79,7 +79,7 @@ We allowed up to eight epochs. Validation loss was best after **epoch 7**. Epoch
 
 ## 6. What the results say
 
-The saved model got **9,892 of 10,000 held-out MNIST pictures correct**, or **98.92%**. It made **108 mistakes**. The earlier saved project run also reported 98.92% on MNIST, so this guided run reproduced the displayed result rather than improving it. The lowest per-digit result was digit 9 at **97.62%**. The detailed counts, full confusion matrix, precision/recall/F1, and actual mistake pictures are in `TRAINING_REPORT.md`.
+The saved model got **9,892 of 10,000 held-out MNIST pictures correct**, or **98.92%**. It made **108 mistakes**. The earlier saved project run also reported 98.92% on MNIST, so this current run reproduced the displayed result rather than improving it. The lowest per-digit result was digit 9 at **97.62%**. The detailed counts, full confusion matrix, precision/recall/F1, and actual mistake pictures are in `MODEL_EVALUATION.md`.
 
 ![MNIST mistakes by actual and predicted digit](artifacts/plots/mistake_patterns.png)
 
@@ -95,14 +95,14 @@ The app shows the **original** and **processed** pictures side by side. If the p
 
 ## 8. When more images are worth using
 
-We already used the standard MNIST training split of 60,000 labelled pictures. Adding rotated or shifted copies can help only if they match the errors we see in our actual app. Our next evidence is a small set of real team handwriting, recorded using `step_08_app.py` and reviewed with `REAL_HANDWRITING_PLAN.md`.
+We already used the standard MNIST training split of 60,000 labelled pictures. Adding rotated or shifted copies can help only if they match the errors we see in our actual app. Our next evidence is a small set of real team handwriting, recorded using `step_08_app.py` and reviewed with `HANDWRITING_EVALUATION.md`.
 
 If errors mostly come from bad cropping or background handling, improve preparation first. If clear, well-prepared digits repeatedly fail in the same way, gather similar labelled examples or try targeted augmentation. Compare the changed model with the earlier one on the **same saved real examples**, and keep the MNIST test set separate from training.
 
 ## 9. What you can do in VS Code now
 
 1. Open `step_03_model.py` on the left and this guide on the right. Run Step 3 to see the 34,826-parameter layer summary.
-2. Open `TRAINING_REPORT.md` in Markdown preview to inspect each graph, especially where validation loss stopped improving.
+2. Open `MODEL_EVALUATION.md` in Markdown preview to inspect each graph, especially where validation loss stopped improving.
 3. Open `step_07_prepare_upload.py` and `artifacts/prepared_preview.png` together to connect each image transformation with what the model sees.
 4. Open the local app at `http://localhost:8502`, upload `first_mnist_digit.png`, and compare the original and processed images. Then try a digit you wrote yourself and save its correct label in the app.
 

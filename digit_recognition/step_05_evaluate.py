@@ -1,7 +1,7 @@
 r"""Step 5: check the saved model on MNIST pictures kept out of training.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_05_evaluate.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_05_evaluate.py
 
 This checks MNIST test pictures. Real phone photos and personal handwriting
 will need their own check before we claim the app works well for those inputs.

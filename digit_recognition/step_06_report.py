@@ -1,7 +1,7 @@
 r"""Step 6: turn saved training and test results into plots and a report.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_06_report.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_06_report.py
 
 This script only reads recorded results. It does not retrain or change the model.
 """
@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# SECTION 1 — Load the numbers produced by the earlier guided steps
+# SECTION 1 — Load the numbers produced by the earlier pipeline scripts
 HERE = Path(__file__).parent
 ARTIFACTS = HERE / "artifacts"
 PLOTS = ARTIFACTS / "plots"
@@ -99,10 +99,10 @@ fig.savefig(PLOTS / "mistake_patterns.png", dpi=180)
 plt.close(fig)
 
 
-# SECTION 5 — Compare the guided run with the earlier saved baseline
+# SECTION 5 — Compare the current model with the earlier saved baseline
 fig, axis = plt.subplots(figsize=(7, 4.5), layout="constrained")
 accuracy_values = [baseline["test_accuracy"] * 100, results["test_accuracy"] * 100]
-bars = axis.bar(["Earlier baseline", "Guided run"], accuracy_values,
+bars = axis.bar(["Earlier baseline", "Current model"], accuracy_values,
                 color=["#778899", "#2474a6"], width=0.5)
 for bar, value in zip(bars, accuracy_values):
     axis.text(bar.get_x() + bar.get_width() / 2, value + 1,
@@ -162,9 +162,9 @@ confusion_rows = "\n".join(
     f"| {actual} | {predicted} | {count} |" for count, actual, predicted in confusions
 )
 baseline_gap = (results["test_accuracy"] - baseline["test_accuracy"]) * 100
-report = f"""# Handwritten digit recognition — training and evaluation report
+report = f"""# MNIST model evaluation
 
-Generated from the saved results of the guided Desktop build. See `BUILD_JOURNAL.md` for the chronological record, including the first save-permission failure and successful rerun.
+Generated from saved MNIST results. See `DEVELOPMENT_LOG.md` for implementation decisions and observed results.
 
 ## 1. Scope and data
 
@@ -181,7 +181,7 @@ Images were converted from integer pixels 0–255 to `float32` pixels 0–1. A o
 | Optimizer | Adam, learning rate 0.001; adjusts weights after each batch |
 | Loss | Sparse categorical cross-entropy; lower means predicted probability was closer to the correct digit |
 | Batch size | 128 pictures per weight update |
-| Maximum epochs | 8 full passes through the learning subset |
+| Maximum epochs | 8 full passes through the training subset |
 | Random seed | 42, to make the run more repeatable |
 | Early stopping | Monitored validation loss, patience 2, restored the best weights |
 | Hardware | Native Windows CPU; TensorFlow reported no GPU support for this environment |
@@ -261,16 +261,16 @@ This score is useful for comparing model outputs, but it is not proof that a sta
 | Saved run | MNIST test size | Test accuracy | Test loss |
 | --- | ---: | ---: | ---: |
 | Earlier baseline | {baseline['test_examples']:,} | {baseline['test_accuracy']:.2%} | {baseline['test_loss']:.4f} |
-| Guided Desktop run | {results['test_examples']:,} | {results['test_accuracy']:.2%} | {results['test_loss']:.4f} |
+| Current model | {results['test_examples']:,} | {results['test_accuracy']:.2%} | {results['test_loss']:.4f} |
 
-**Difference in reported test accuracy: {baseline_gap:+.2f} percentage points.** The guided run matches the earlier saved baseline at the displayed precision. The baseline numbers were copied from the earlier project's `artifacts/metrics.json` into `reference_baseline_metrics.json`; this is a comparison of two saved runs, not a controlled study of a single change. The tiny loss difference should not be treated as meaningful evidence of improvement.
+**Difference in reported test accuracy: {baseline_gap:+.2f} percentage points.** The current model matches the earlier saved baseline at the displayed precision. The baseline numbers were copied from the earlier project's `artifacts/metrics.json` into `reference_baseline_metrics.json`; this is a comparison of two saved runs, not a controlled study of a single change. The tiny loss difference should not be treated as meaningful evidence of improvement.
 
-![Earlier baseline versus guided run](artifacts/plots/baseline_comparison.png)
+![Earlier baseline versus current model](artifacts/plots/baseline_comparison.png)
 
 ## 6. Interpretation, limits, and next decision
 
 - The CNN learned MNIST well and reproduced the earlier 98.92% test accuracy.
-- The guided run used all 60,000 images in the standard MNIST training split. Other labeled handwriting datasets exist, but a larger count by itself does not show that those examples match our intended users.
+- The current model used all 60,000 images in the standard MNIST training split. Other labeled handwriting datasets exist, but a larger count by itself does not show that those examples match our intended users.
 - A phone photo or drawn digit can differ in background, thickness, position, size, lighting, and color from MNIST. The local app now prepares and displays these inputs, but the team still needs to try genuine handwriting.
 - The displayed softmax value is a model output, not proof that the predicted probability is calibrated. An uncertain or wrong real-world image still needs visible handling in the app.
 - Real-handwriting performance has not yet been measured. Cloud deployment is deferred for later, as requested.
@@ -309,7 +309,7 @@ These are public self-reports, so they help generate troubleshooting ideas but d
 - In a newer Stack Overflow report about a canvas app and a Flask prediction service, the builder said their local MNIST accuracy was about 98% but deployed canvas predictions were often wrong. The post's follow-up identifies reversed foreground/background polarity: scaling values by 255 did not correct the inversion. The author reports that inverting the image and visually comparing saved preprocessed samples with MNIST resolved the issue. This directly supports showing the processed 28 × 28 image in our app. [Question, answer, and author's follow-up](https://stackoverflow.com/questions/79980878/cnn-digit-recognition-model-high-local-accuracy-but-poor-predictions-after-depl)
 - A Reddit learner described roughly 98% MNIST test accuracy but unreliable predictions in a Tkinter drawing interface, particularly for 9, 7, and 1. Replies raised possible issues with drawing color, thresholding, and model setup; the discussion did not provide a controlled comparison, so treat those remedies as hypotheses. The practical theme is the same: benchmark accuracy and interactive-input accuracy are different measurements. [Discussion](https://www.reddit.com/r/learnmachinelearning/comments/t22q50/)
 
-### 7.5 Takeaways for this guided project
+### 7.5 Takeaways for this project
 
 1. **Inspect preprocessing visually before changing the CNN.** Our sample currently passes through the upload-preparation function and remains recognizable, but this is only one MNIST example. When using real images, compare the original and 28 × 28 processed version and inspect polarity, crop, centering, stroke thickness, and contrast.
 2. **Keep the test conditions honest.** The 98.92% result is for the 10,000 held-out MNIST examples. Team handwriting should have its own separate labeled results. If there are enough writers, keep some writers out of the tuning examples; otherwise report simple counts and call the check exploratory.
@@ -321,17 +321,17 @@ These are research-informed options, not changes made to the model. Cloud deploy
 
 ## 8. Reproduce the saved results and plots
 
-From the Desktop project folder in the VS Code terminal:
+From the repository root in the VS Code terminal:
 
 ```powershell
-.\\.venv\\Scripts\\python.exe .\\guided_build\\step_03_model.py
-.\\.venv\\Scripts\\python.exe .\\guided_build\\step_04_train.py
-.\\.venv\\Scripts\\python.exe .\\guided_build\\step_05_evaluate.py
-.\\.venv\\Scripts\\python.exe .\\guided_build\\step_06_report.py
+.\\.venv\\Scripts\\python.exe .\\digit_recognition\\step_03_model.py
+.\\.venv\\Scripts\\python.exe .\\digit_recognition\\step_04_train.py
+.\\.venv\\Scripts\\python.exe .\\digit_recognition\\step_05_evaluate.py
+.\\.venv\\Scripts\\python.exe .\\digit_recognition\\step_06_report.py
 ```
 
 `step_04_train.py` retrains and may produce slightly different values on another machine; the saved JSON, CSV, model, and plots document this particular run. `step_06_report.py` redraws plots from those saved result files without retraining.
 """
-(HERE / "TRAINING_REPORT.md").write_text(report, encoding="utf-8")
-print(f"Report saved to: {HERE / 'TRAINING_REPORT.md'}")
+(HERE / "MODEL_EVALUATION.md").write_text(report, encoding="utf-8")
+print(f"Report saved to: {HERE / 'MODEL_EVALUATION.md'}")
 print(f"Plots saved to: {PLOTS}")

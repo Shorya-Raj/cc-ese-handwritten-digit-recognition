@@ -1,7 +1,7 @@
 r"""Step 2: prepare MNIST images for a convolutional neural network (CNN).
 
-Run from the project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_02_prepare_images.py
+Run from the repository root in PowerShell:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_02_prepare_images.py
 
 This step changes the image numbers and shape. It does not train a model.
 """

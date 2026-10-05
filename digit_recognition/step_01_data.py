@@ -1,7 +1,7 @@
 r"""Step 1: meet the handwritten-digit dataset before building a model.
 
-Run from the project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_01_data.py
+Run from the repository root in PowerShell:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_01_data.py
 
 This step loads MNIST, prints a few facts, and saves one enlarged sample image.
 It does not train or change the existing model.

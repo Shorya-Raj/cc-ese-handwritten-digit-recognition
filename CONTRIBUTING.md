@@ -1,21 +1,21 @@
-# Contributing to the CC ESE project
+# Contributing
 
-Thanks for helping with the handwritten digit recognition project. Keep changes small and easy to explain during the presentation.
+Keep pull requests focused and include evidence for changes to model behavior or evaluation results.
 
 ## Workflow
 
-1. Check the open issues and agree on the task with the group.
-2. Create a branch from the latest `main`, for example `docs/clarify-test-results` or `evaluation/real-handwriting`.
-3. Make one focused change. Keep comments and section headings that help a beginner follow the code.
-4. If model behavior or evaluation changes, update the report and record the dataset split, settings, and results.
-5. Open a pull request with a clear summary, relevant checks, and screenshots or plots when useful.
-6. Have at least one teammate review it. Merge when the explanation and evidence are clear.
+1. Review the open issues and agree on the task with the group.
+2. Create a short branch from the latest `main`, such as `docs/test-results` or `evaluation/handwriting`.
+3. Make one focused change. Preserve useful section comments and update documentation when behavior changes.
+4. For model or evaluation changes, record the data split, settings, and results.
+5. Open a pull request with a summary and relevant checks, plots, or screenshots.
+6. Ask a teammate to review before merging.
 
 ## Project safeguards
 
-- Keep the held-out MNIST test set for final evaluation; use the training/validation split for model decisions.
-- State clearly whether a result is measured on MNIST or on newly collected handwriting.
+- Keep the held-out MNIST test set for final evaluation; use training and validation data for model decisions.
+- State whether a result comes from MNIST or newly collected handwriting.
 - Do not commit virtual environments, credentials, or original personal handwriting samples.
-- Ask contributors before collecting their handwriting. Use labels instead of names where possible.
-- Keep cloud deployment deferred until the group and course requirements are ready to address it.
-- There is currently no automated test suite. For relevant changes, run the affected script or launch the local app and describe what you checked in the pull request.
+- Get each contributor's agreement before collecting handwriting; labels are sufficient.
+- Cloud deployment is outside the current project scope.
+- There is no automated test suite. For relevant changes, run the affected script or launch the local app and describe what you checked in the pull request.

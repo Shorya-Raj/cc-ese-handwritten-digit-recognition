@@ -1,7 +1,7 @@
-r"""Step 8: run the guided digit-recognition app in Streamlit.
+r"""Step 8: run the current digit-recognition app in Streamlit.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe -m streamlit run .\guided_build\step_08_app.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe -m streamlit run .\digit_recognition\step_08_app.py
 
 Upload one handwritten digit or take a photo. The app shows both the original
 picture and the exact 28-by-28 picture passed to the saved CNN.
@@ -20,7 +20,7 @@ from PIL import Image
 from step_07_prepare_upload import prepare_image, to_model_batch
 
 
-# SECTION 1 — Point the app to the model trained in our guided build
+# SECTION 1 — Load the saved model
 MODEL_PATH = Path(__file__).with_name("artifacts") / "digit_model.keras"
 
 
@@ -31,13 +31,13 @@ def load_model() -> tf.keras.Model:
 
 
 def main() -> None:
-    # SECTION 2 — Give the student simple instructions and an input choice
+    # SECTION 2 — Select an image source for prediction
     st.set_page_config(page_title="Handwritten Digit Recognition", page_icon="✍️")
     st.title("Handwritten Digit Recognition")
     st.write("Show the model **one handwritten digit**. Use dark ink on plain white paper, or draw one digit in Paint and upload the saved PNG. Keep the digit large and centered.")
 
     if not MODEL_PATH.is_file():
-        st.error("The guided model file is missing. Run step_04_train.py first.")
+        st.error("The trained model file is missing. Run step_04_train.py first.")
         st.stop()
 
     input_method = st.radio("How will you provide the digit?", ["Upload an image", "Take a photo"], horizontal=True)
@@ -95,7 +95,7 @@ def main() -> None:
 
     # SECTION 7 — Optionally record a labelled example for real-handwriting review
     st.subheader("Help us check real handwriting")
-    st.write("If you know the digit you wrote, choose it and save this result. In our local Desktop run it goes into this project's `artifacts/real_handwriting` folder.")
+    st.write("If you know the digit you wrote, choose it and save this result. It is saved locally under `artifacts/real_handwriting`.")
     actual_digit = st.selectbox("Digit actually shown in your picture", range(10))
     if st.button("Save this labelled example locally"):
         sample_dir = MODEL_PATH.parent / "real_handwriting"

@@ -18,7 +18,7 @@ ENV/
 *.pem
 *.key
 # Local user handwriting: keep original samples out of Git
-guided_build/artifacts/real_handwriting/
+digit_recognition/artifacts/real_handwriting/
 # OS files
 .DS_Store
 Thumbs.db

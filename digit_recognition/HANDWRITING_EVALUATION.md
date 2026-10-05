@@ -1,24 +1,24 @@
-# Real handwriting check — what the team will do
+# Real handwriting evaluation plan
 
-The 98.92% result in `TRAINING_REPORT.md` was measured on MNIST. This short check tells us how the actual app performs on images closer to our demonstration: a digit on paper, a camera photo, or a PNG drawn by a person.
+The 98.92% result in `MODEL_EVALUATION.md` was measured on MNIST. This short check tells us how the actual app performs on images closer to our demonstration: a digit on paper, a camera photo, or a PNG drawn by a person.
 
 ## 1. Collect a small, balanced set
 
-Before collecting, tell each writer what the examples are for and get their agreement. Names are not needed: use simple contributor labels. Keep original handwriting images on the local machine; the repository ignores `guided_build/artifacts/real_handwriting/`, so those personal samples stay out of GitHub.
+Before collecting, tell each writer what the examples are for and get their agreement. Names are not needed: use simple contributor labels. Keep original handwriting images on the local machine; the repository ignores `digit_recognition/artifacts/real_handwriting/`, so those personal samples stay out of GitHub.
 
 Ask each available teammate to write digits **0 through 9 once**, using their normal handwriting. If time allows, repeat them with a second input style, such as a phone photo and a Paint drawing. Aim for roughly **30–50 labelled examples** across the team before drawing conclusions. This is a practical demo check, not a statistically representative accuracy study.
 
 For paper images, use one digit per picture, dark ink, plain light background, and enough space around the digit. Keep a few ordinary, imperfect photos too; they show whether the app handles realistic inputs. Do not quietly discard failures.
 
-## 2. Use the guided app
+## 2. Run the local app
 
-From the Desktop project folder in the VS Code terminal:
+From the repository root in the VS Code terminal:
 
 ```powershell
-.\.venv\Scripts\python.exe -m streamlit run .\guided_build\step_08_app.py
+.\.venv\Scripts\python.exe -m streamlit run .\digit_recognition\step_08_app.py
 ```
 
-For each example, inspect the **original image** and the **28 × 28 model input** shown side by side. If the processed image loses a stroke, cuts off the digit, or keeps background marks, record that as a preparation problem. Choose the digit actually written and press **Save this labelled example locally**. The local run saves both images and one CSV row under `guided_build/artifacts/real_handwriting/`.
+For each example, inspect the **original image** and the **28 × 28 model input** shown side by side. If the processed image loses a stroke, cuts off the digit, or keeps background marks, record that as a preparation problem. Choose the digit actually written and press **Save this labelled example locally**. The local app saves both images and one CSV row under `digit_recognition/artifacts/real_handwriting/`.
 
 ## 3. Review outcomes honestly
 

@@ -1,6 +1,6 @@
 # Project overview: from MNIST to the demo
 
-Use this map for a quick explanation of what has been built, what the score means, and what the group should do next.
+Workflow, measured results, and the next evaluation task.
 
 ```mermaid
 flowchart TB
@@ -31,10 +31,10 @@ The **98.92%** score is on the standard, held-out MNIST test set. It is not a me
 
 ## Read the details
 
-- [Training report, graphs, evaluation and cited research review](TRAINING_REPORT.md)
-- [Build journal: what changed and why](BUILD_JOURNAL.md)
-- [Plain-language model walkthrough](MODEL_WALKTHROUGH.md)
-- [Plan for the next real-handwriting evaluation](REAL_HANDWRITING_PLAN.md)
+- [Training report, graphs, evaluation and cited research review](MODEL_EVALUATION.md)
+- [Build journal: what changed and why](DEVELOPMENT_LOG.md)
+- [Model architecture and data flow](MODEL_ARCHITECTURE.md)
+- [Real-handwriting evaluation plan](HANDWRITING_EVALUATION.md)
 - [Numbered, commented build scripts](.)
 
 **Current stage:** benchmark and local demo are ready; real team handwriting evaluation remains. Cloud deployment is deferred.

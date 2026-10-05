@@ -1,7 +1,7 @@
 r"""Step 3: build the CNN and inspect its layers without training it yet.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_03_model.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_03_model.py
 
 CNN means convolutional neural network. It learns small visual patterns such
 as strokes and curves, then combines them to recognize a complete digit.

@@ -1,25 +1,25 @@
 # Handwritten Digit Recognition
 
-**Cloud Computing Essentials ESE project** · MNIST convolutional neural network · local Streamlit demo
+**Cloud Computing Essentials ESE** · MNIST convolutional neural network · local Streamlit application
 
-## Project status
+## Overview
 
-The model has been trained and evaluated, the local demo and detailed report are included, and the next project step is to try the app with real handwriting from the team. Cloud deployment is deferred.
+This repository contains a CNN that classifies grayscale images of handwritten digits 0–9, an evaluation on MNIST, and a local interface for image upload or camera input. The app and report use the included trained model.
 
-**Start here:** [open the quick visual project map](guided_build/PROJECT_OVERVIEW.md).
+[Project workflow and current status](digit_recognition/PROJECT_OVERVIEW.md)
 
-## Results at a glance
+## Results
 
 - **98.92% test accuracy** on the held-out 10,000-image MNIST test set: 9,892 correct and 108 incorrect.
 - **99.08% best validation accuracy** at epoch 7.
-- **34,826 trainable parameters** in the CNN.
-- Among the 108 errors, 25 still received a top softmax score of 90% or higher. These scores are not calibrated probabilities.
+- **34,826 trainable parameters**.
+- Of the 108 test errors, 25 received a top softmax score of at least 90%. These scores are not calibrated probabilities.
 
-These are MNIST benchmark results. They do **not** establish the model’s accuracy on the team’s handwriting or on arbitrary camera images. See [the training report](guided_build/TRAINING_REPORT.md) for the full evaluation, plots, mistakes, limitations, and cited research review.
+These figures describe performance on MNIST. They do not establish accuracy on the team's handwriting or on arbitrary camera images. The next evaluation is described in [HANDWRITING_EVALUATION.md](digit_recognition/HANDWRITING_EVALUATION.md). Cloud deployment is deferred.
 
-## Run the local demo
+## Run the application
 
-Requirements: Python compatible with the pinned packages in `requirements.txt`. Clone the private repository, then run these commands in PowerShell:
+The repository is private. After you have access, clone it and run these commands in PowerShell:
 
 ```powershell
 git clone https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition.git
@@ -27,43 +27,36 @@ cd cc-ese-handwritten-digit-recognition
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run .\guided_build\step_08_app.py
+.\.venv\Scripts\python.exe -m streamlit run .\digit_recognition\step_08_app.py
 ```
 
-The app uses the included trained model at `guided_build/artifacts/digit_model.keras`. The first time you run the data or training steps, TensorFlow downloads MNIST. The raw MNIST dataset is not committed.
+The app loads `digit_recognition/artifacts/digit_model.keras`. TensorFlow downloads MNIST on the first run of a data or training script; the raw dataset is not stored in this repository.
 
-To retrain and regenerate the evaluation outputs, run these from the repository root:
+To retrain and regenerate the evaluation files:
 
 ```powershell
-.\.venv\Scripts\python.exe .\guided_build\step_04_train.py
-.\.venv\Scripts\python.exe .\guided_build\step_05_evaluate.py
-.\.venv\Scripts\python.exe .\guided_build\step_06_report.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_04_train.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_05_evaluate.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_06_report.py
 ```
 
-Training takes longer than opening the demo; use the committed model for the first walkthrough.
+## Repository contents
 
-## What is in this repository?
+- `digit_recognition/step_01_data.py` through `step_08_app.py`: data, model, training, evaluation, preprocessing, and application scripts.
+- [Model architecture](digit_recognition/MODEL_ARCHITECTURE.md): input processing, CNN layers, and training setup.
+- [Evaluation report](digit_recognition/MODEL_EVALUATION.md): metrics, plots, error analysis, limitations, and cited research.
+- [Development log](digit_recognition/DEVELOPMENT_LOG.md): implementation decisions, observations, and remaining work.
+- [Pipeline notes](digit_recognition/PIPELINE.md): script order and run commands.
+- `digit_recognition/artifacts/`: saved model, evaluation files, and plots.
 
-- `guided_build/step_01_data.py` through `step_08_app.py`: commented, numbered learning steps.
-- `guided_build/MODEL_WALKTHROUGH.md`: plain-language explanation of data, preprocessing, CNN layers, and training.
-- `guided_build/BUILD_JOURNAL.md`: chronological record of project actions, observations, and next steps.
-- `guided_build/TRAINING_REPORT.md`: results, graphs, error analysis, comparison, limitations, and research review.
-- `guided_build/REAL_HANDWRITING_PLAN.md`: the next small team evaluation.
-- `guided_build/artifacts/`: trained model, evaluation records, and plots.
+## Contributing
 
-## Team workflow
+Review [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Use a short branch and pull request for group changes. The repository owner can invite team members through **Settings → Collaborators**.
 
-1. Discuss an issue or task before starting larger changes.
-2. Create a short branch from `main`, make a focused change, and open a pull request.
-3. Ask a teammate to review the change and check the report or demo when relevant.
-4. Merge after review so `main` stays usable.
+## Data handling
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). The repository owner can add teammates in **Settings → Collaborators** using their GitHub usernames.
-
-## Data and privacy
-
-Do not commit secrets, virtual environments, or personal handwriting originals. The local example folder `guided_build/artifacts/real_handwriting/` is ignored by Git; get each writer’s agreement before collecting examples. Summarized results and plots can be shared with the team without uploading original images.
+Do not commit credentials, virtual environments, or original personal handwriting samples. The local folder `digit_recognition/artifacts/real_handwriting/` is ignored by Git. Get contributors' agreement before collecting examples, and use labels rather than names where possible.
 
 ## License
 
-No license has been selected. This private repository is for the course project; agree as a group before adding a license or making the code public.
+No license has been selected. Keep the repository private unless the group agrees on its distribution and licensing.

@@ -1,6 +1,6 @@
-# Handwritten digit recognition — training and evaluation report
+# MNIST model evaluation
 
-Generated from the saved results of the guided Desktop build. See `BUILD_JOURNAL.md` for the chronological record, including the first save-permission failure and successful rerun.
+This report records the MNIST training run, held-out test results, error analysis, and research review. Implementation decisions are summarized in `DEVELOPMENT_LOG.md`.
 
 ## 1. Scope and data
 
@@ -16,8 +16,8 @@ Images were converted from integer pixels 0–255 to `float32` pixels 0–1. A o
 | Trainable parameters | 34,826 adjustable values |
 | Optimizer | Adam, learning rate 0.001; adjusts weights after each batch |
 | Loss | Sparse categorical cross-entropy; lower means predicted probability was closer to the correct digit |
-| Batch size | 128 pictures per weight update |
-| Maximum epochs | 8 full passes through the learning subset |
+| Batch size | 128 images per weight update |
+| Maximum epochs | 8 full passes through the training subset |
 | Random seed | 42, to make the run more repeatable |
 | Early stopping | Monitored validation loss, patience 2, restored the best weights |
 | Hardware | Native Windows CPU; TensorFlow reported no GPU support for this environment |
@@ -45,7 +45,7 @@ The lowest validation loss was **0.0332 at epoch 7**, when validation accuracy w
 
 | Measure | Result |
 | --- | ---: |
-| Test pictures | 10,000 |
+| Test images | 10,000 |
 | Correct predictions | 9,892 |
 | Incorrect predictions | 108 |
 | Test accuracy | **98.92%** |
@@ -74,7 +74,7 @@ Digit 9 had the lowest accuracy (97.62%), followed by digit 6 (98.02%). Class si
 
 ### Precision, recall, and F1
 
-**Recall** asks: of the pictures that truly show a digit, how many did we find? Here it equals the per-digit accuracy above. **Precision** asks: when the model predicts a digit, how often is that prediction correct? **F1** combines both into one number. These are useful when a model predicts one digit too often or misses it too often.
+**Recall** asks: of the images that truly show a digit, how many did we find? Here it equals the per-digit accuracy above. **Precision** asks: when the model predicts a digit, how often is that prediction correct? **F1** combines both into one number. These are useful when a model predicts one digit too often or misses it too often.
 
 | Digit | Precision | Recall | F1 |
 | ---: | ---: | ---: | ---: |
@@ -126,21 +126,21 @@ This score is useful for comparing model outputs, but it is not proof that a sta
 | Saved run | MNIST test size | Test accuracy | Test loss |
 | --- | ---: | ---: | ---: |
 | Earlier baseline | 10,000 | 98.92% | 0.0328 |
-| Guided Desktop run | 10,000 | 98.92% | 0.0327 |
+| Current model | 10,000 | 98.92% | 0.0327 |
 
-**Difference in reported test accuracy: +0.00 percentage points.** The guided run matches the earlier saved baseline at the displayed precision. The baseline numbers were copied from the earlier project's `artifacts/metrics.json` into `reference_baseline_metrics.json`; this is a comparison of two saved runs, not a controlled study of a single change. The tiny loss difference should not be treated as meaningful evidence of improvement.
+**Difference in reported test accuracy: +0.00 percentage points.** The current model matches the earlier saved baseline at the displayed precision. The baseline numbers were copied from the earlier project's `artifacts/metrics.json` into `reference_baseline_metrics.json`; this is a comparison of two saved runs, not a controlled study of a single change. The tiny loss difference should not be treated as meaningful evidence of improvement.
 
-![Earlier baseline versus guided run](artifacts/plots/baseline_comparison.png)
+![Earlier baseline versus current model](artifacts/plots/baseline_comparison.png)
 
 ## 6. Interpretation, limits, and next decision
 
 - The CNN learned MNIST well and reproduced the earlier 98.92% test accuracy.
-- The guided run used all 60,000 images in the standard MNIST training split. Other labeled handwriting datasets exist, but a larger count by itself does not show that those examples match our intended users.
+- The current model used all 60,000 images in the standard MNIST training split. Other labeled handwriting datasets exist, but a larger count by itself does not show that those examples match our intended users.
 - A phone photo or drawn digit can differ in background, thickness, position, size, lighting, and color from MNIST. The local app now prepares and displays these inputs, but the team still needs to try genuine handwriting.
 - The displayed softmax value is a model output, not proof that the predicted probability is calibrated. An uncertain or wrong real-world image still needs visible handling in the app.
 - Real-handwriting performance has not yet been measured. Cloud deployment is deferred for later, as requested.
 
-**Next action:** try the local app with labeled team examples, inspect original and prepared pictures, and decide whether the observed failures call for preprocessing changes, targeted augmentation, or more labeled examples. Keep the 10,000 MNIST test images out of training.
+**Next action:** try the local app with labeled team examples, inspect original and prepared images, and decide whether the observed failures call for preprocessing changes, targeted augmentation, or more labeled examples. Keep the 10,000 MNIST test images out of training.
 
 ## 7. What published work and other builders found
 
@@ -152,7 +152,7 @@ This research review was completed on 5 October 2026. It covers the original MNI
 
 **Simard, Steinkraus, and Platt (2003), “Best Practices for Convolutional Neural Networks Applied to Visual Document Analysis.”** The paper compared practical network choices on MNIST and emphasized CNNs and adding plausible distorted training examples. They studied transformations including shifts, rotations, skew, and elastic deformations, which approximate natural variation in handwriting. The purpose is to make the model tolerate label-preserving changes without collecting a new human-written sample for every small variation. This is useful precedent, but it does not mean every transformation helps every input style; changes that turn a digit into another digit would teach the wrong label. [Microsoft Research paper record and PDF](https://www.microsoft.com/en-us/research/publication/best-practices-for-convolutional-neural-networks-applied-to-visual-document-analysis/)
 
-**TensorFlow's training and augmentation guides.** Their official Keras examples demonstrate distinct training, validation, and test roles. Their augmentation guide describes operations such as rotation, zoom, crop, and contrast, and says to apply random augmentation to training data only. It also explains an engineering choice: preprocessing inside the saved model can travel with that model; preprocessing outside it has to be reproduced consistently at prediction time. That matters for our app because the MNIST training path currently scales and reshapes images, while uploaded pictures also go through crop, contrast, inversion, and centering. [Training and evaluation guide](https://www.tensorflow.org/guide/keras/training_with_built_in_methods), [data augmentation guide](https://www.tensorflow.org/tutorials/images/data_augmentation)
+**TensorFlow's training and augmentation guides.** Their official Keras examples demonstrate distinct training, validation, and test roles. Their augmentation guide describes operations such as rotation, zoom, crop, and contrast, and says to apply random augmentation to training data only. It also explains an engineering choice: preprocessing inside the saved model can travel with that model; preprocessing outside it has to be reproduced consistently at prediction time. That matters for our app because the MNIST training path currently scales and reshapes images, while uploaded images also go through crop, contrast, inversion, and centering. [Training and evaluation guide](https://www.tensorflow.org/guide/keras/training_with_built_in_methods), [data augmentation guide](https://www.tensorflow.org/tutorials/images/data_augmentation)
 
 ### 7.2 Larger and more varied handwriting datasets
 
@@ -164,7 +164,7 @@ This research review was completed on 5 October 2026. It covers the original MNI
 
 ### 7.3 Image corruption and domain shift
 
-**MNIST-C (Mu and Gilmer, 2019).** This benchmark applies 15 broad image corruptions to MNIST test pictures, including noise, blur, brightness, pixelation, and elastic changes. The paper reports that a tested CNN's mean accuracy fell from 99.22% on clean MNIST to 91.21% on the corruption suite; it also reports that error increased by roughly a factor of ten. The authors show that training on the benchmark's held-out corruption conditions defeats the purpose of testing out-of-distribution robustness. For us, this supports testing real input conditions and keeping an evaluation set separate from augmentation experiments. The corruption benchmark is not the same thing as testing actual handwriting from our team. [MNIST-C paper](https://arxiv.org/abs/1906.02337)
+**MNIST-C (Mu and Gilmer, 2019).** This benchmark applies 15 broad image corruptions to MNIST test images, including noise, blur, brightness, pixelation, and elastic changes. The paper reports that a tested CNN's mean accuracy fell from 99.22% on clean MNIST to 91.21% on the corruption suite; it also reports that error increased by roughly a factor of ten. The authors show that training on the benchmark's held-out corruption conditions defeats the purpose of testing out-of-distribution robustness. For us, this supports testing real input conditions and keeping an evaluation set separate from augmentation experiments. The corruption benchmark is not the same thing as testing actual handwriting from our team. [MNIST-C paper](https://arxiv.org/abs/1906.02337)
 
 ### 7.4 What people reported when they tried their own writing
 
@@ -174,7 +174,7 @@ These are public self-reports, so they help generate troubleshooting ideas but d
 - In a newer Stack Overflow report about a canvas app and a Flask prediction service, the builder said their local MNIST accuracy was about 98% but deployed canvas predictions were often wrong. The post's follow-up identifies reversed foreground/background polarity: scaling values by 255 did not correct the inversion. The author reports that inverting the image and visually comparing saved preprocessed samples with MNIST resolved the issue. This directly supports showing the processed 28 × 28 image in our app. [Question, answer, and author's follow-up](https://stackoverflow.com/questions/79980878/cnn-digit-recognition-model-high-local-accuracy-but-poor-predictions-after-depl)
 - A Reddit learner described roughly 98% MNIST test accuracy but unreliable predictions in a Tkinter drawing interface, particularly for 9, 7, and 1. Replies raised possible issues with drawing color, thresholding, and model setup; the discussion did not provide a controlled comparison, so treat those remedies as hypotheses. The practical theme is the same: benchmark accuracy and interactive-input accuracy are different measurements. [Discussion](https://www.reddit.com/r/learnmachinelearning/comments/t22q50/)
 
-### 7.5 Takeaways for this guided project
+### 7.5 Takeaways for this project
 
 1. **Inspect preprocessing visually before changing the CNN.** Our sample currently passes through the upload-preparation function and remains recognizable, but this is only one MNIST example. When using real images, compare the original and 28 × 28 processed version and inspect polarity, crop, centering, stroke thickness, and contrast.
 2. **Keep the test conditions honest.** The 98.92% result is for the 10,000 held-out MNIST examples. Team handwriting should have its own separate labeled results. If there are enough writers, keep some writers out of the tuning examples; otherwise report simple counts and call the check exploratory.
@@ -186,13 +186,13 @@ These are research-informed options, not changes made to the model. Cloud deploy
 
 ## 8. Reproduce the saved results and plots
 
-From the Desktop project folder in the VS Code terminal:
+From the repository root in the VS Code terminal:
 
 ```powershell
-.\.venv\Scripts\python.exe .\guided_build\step_03_model.py
-.\.venv\Scripts\python.exe .\guided_build\step_04_train.py
-.\.venv\Scripts\python.exe .\guided_build\step_05_evaluate.py
-.\.venv\Scripts\python.exe .\guided_build\step_06_report.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_03_model.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_04_train.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_05_evaluate.py
+.\.venv\Scripts\python.exe .\digit_recognition\step_06_report.py
 ```
 
 `step_04_train.py` retrains and may produce slightly different values on another machine; the saved JSON, CSV, model, and plots document this particular run. `step_06_report.py` redraws plots from those saved result files without retraining.

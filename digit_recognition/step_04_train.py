@@ -1,7 +1,7 @@
 r"""Step 4: train the CNN on MNIST and save the learned model.
 
-Run from the Desktop project folder in the VS Code terminal:
-    .\.venv\Scripts\python.exe .\guided_build\step_04_train.py
+Run from the repository root in the VS Code terminal:
+    .\.venv\Scripts\python.exe .\digit_recognition\step_04_train.py
 
 The 10,000 test pictures are deliberately kept out of this step. Step 5 will
 use them to check how the trained model performs on unseen MNIST pictures.
