@@ -185,3 +185,11 @@ This log records implementation milestones, technical decisions, observed result
 6. Added Section 7 to `MODEL_EVALUATION.md` through the report generator. It has linked source citations, source purpose and method, observed issues/results, evidence-quality notes, and five takeaways tailored to this model. Regenerated the report successfully; it is now about 2,831 words.
 
 **What this changes:** nothing in the trained model. The review strengthens the reason for checking actual team inputs before choosing more training data or augmentation. It also supports the app's side-by-side view of original and prepared images. Cloud deployment remains deferred.
+
+## 8 October 2026 — Documentation and repository audit
+
+The original guided model and saved MNIST results were compared with the private GitHub copy. The guided model bytes match exactly; the earlier course-workspace baseline is a different artifact with the same reported MNIST accuracy. A separate seven-writer, 140-crop fine-tuning pilot from 6 October is now documented in `docs/MODEL_AND_EXPERIMENTS.md`: writer 6 stayed at 60%, writer 7 stayed at 50%, and the candidate was not adopted. The local app still loads the guided original.
+
+The Desktop project and original workspace are not Git checkouts. The existing private repository has its own `main` history; a fresh clone is the correct local Git setup when network/authentication allows it. The Desktop sample folder has personal handwriting and is not covered by that folder's short `.gitignore`; the repository's own ignore rule covers its corresponding path. See `docs/PROJECT_AUDIT.md` and `docs/GIT_AND_GITHUB.md` for the inventory and safe workflow.
+
+No training, model replacement, cloud deployment, or merge to `main` was performed during this audit. The repository documentation changes are on branch `docs/project-audit-2026-10-08` for review.
