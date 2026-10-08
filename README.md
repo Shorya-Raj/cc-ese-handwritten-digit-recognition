@@ -15,7 +15,16 @@ This repository contains a CNN that classifies grayscale images of handwritten d
 - **34,826 trainable parameters**.
 - Of the 108 test errors, 25 received a top softmax score of at least 90%. These scores are not calibrated probabilities.
 
-These figures describe performance on MNIST. They do not establish accuracy on the team's handwriting or on arbitrary camera images. The next evaluation is described in [HANDWRITING_EVALUATION.md](digit_recognition/HANDWRITING_EVALUATION.md). Cloud deployment is deferred.
+These figures describe performance on MNIST. They do not establish accuracy on the team's handwriting or on arbitrary camera images. A 140-crop, seven-writer handwriting pilot has since been run. It did not improve either writer check after fine-tuning, so the original guided model remains the app model. Read [the model and experiment record](docs/MODEL_AND_EXPERIMENTS.md) for the split, results, and limitations. Cloud hosting is under review and has not been deployed.
+
+## Current project records
+
+- [Project audit and remaining work](docs/PROJECT_AUDIT.md)
+- [Model and experiments](docs/MODEL_AND_EXPERIMENTS.md)
+- [Git and GitHub guide](docs/GIT_AND_GITHUB.md)
+- [Dated work log](docs/WORK_LOG.md)
+
+The original course workspace and Desktop guided folder are separate local copies, not Git checkouts. Use a fresh clone of this existing repository for routine Git work; see the guide before moving files or committing.
 
 ## Run the application
 
@@ -47,7 +56,8 @@ To retrain and regenerate the evaluation files:
 - [Evaluation report](digit_recognition/MODEL_EVALUATION.md): metrics, plots, error analysis, limitations, and cited research.
 - [Development log](digit_recognition/DEVELOPMENT_LOG.md): implementation decisions, observations, and remaining work.
 - [Pipeline notes](digit_recognition/PIPELINE.md): script order and run commands.
-- `digit_recognition/artifacts/`: saved model, evaluation files, and plots.
+- `digit_recognition/artifacts/`: saved guided model, evaluation files, and plots.
+- `docs/`: current audit, Git workflow, and handwriting experiment record.
 
 ## Contributing
 
