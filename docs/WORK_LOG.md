@@ -23,18 +23,20 @@ This log records completed actions, evidence, decisions and open work. It is a r
 ## 8 October 2026 — Course and repository audit
 
 1. Reviewed the course evaluation plan, syllabus, CO/PO mapping, session plan, question bank and relevant unit notes. Wrote `STREAMLIT_CLOUD_COURSE_ALIGNMENT_REPORT.html`. It concludes that Streamlit Community Cloud appears compatible with the written cloud-application brief, conditional on instructor confirmation and additional CO3/CO4 explanation. No cloud app was deployed.
-2. Listed the original workspace and Desktop guided project. Both have project files but no `.git` directory. The Desktop folder has one saved labelled example and a `.gitignore` that does not cover that example directory.
+2. Listed the original workspace and Desktop guided project. Both have project files but no `.git` directory. The Desktop folder has one saved labelled example; its `.gitignore` originally missed that example directory.
 3. Read the private GitHub repository through the connected GitHub app. At audit time it had `main` at `ecd3c14e28cb33875d8c6cc5eca138d15dc1dd98`, three commits, 33 tracked files, and an open real-handwriting issue. Its `.gitignore` does exclude the repository's handwriting sample folder.
 4. Compared artifact identities. The GitHub model Git blob ID matches the Desktop guided model. The original workspace baseline and fine-tuned candidate are different files, each with its own SHA-256 recorded in `PROJECT_AUDIT.md` and `MODEL_AND_EXPERIMENTS.md`.
 5. Compared saved MNIST result summaries between Desktop and GitHub; the core values agree: 98.92%, 108 wrong, eight epochs and best validation accuracy 99.08%.
 6. Inspected training, preprocessing, app and fine-tuning source. Confirmed the app still has a local sample-save button; the fine-tuning pilot used a separate copy and did not change the active app model.
-7. Checked local Git CLI. Git is installed (2.53.0.windows.3), but the normal command could not connect to GitHub on port 443 in this session. An elevated read attempt stalled and was stopped. No `git init`, clone, push or merge was executed through the CLI. A new local history was deliberately not created over the existing GitHub repository.
+7. Checked local Git CLI. Git is installed (2.53.0.windows.3). The normal sandboxed command could not connect to GitHub on port 443. A later elevated check with credential prompts disabled reached GitHub but lacked a Git CLI username for the private repository. No `git init`, clone, push or merge was executed through the CLI. A new local history was deliberately not created over the existing GitHub repository.
 8. Wrote this audit, a model-and-experiment record, and a plain-language Git/GitHub guide with source links and safe commands.
 9. Created GitHub branch `docs/project-audit-2026-10-08` from the verified `main` commit. It is a separate review branch; `main` was not changed by branch creation.
+10. Added `guided_build/artifacts/real_handwriting/` to the Desktop project's `.gitignore` so the existing personal sample folder is excluded if that old folder is ever staged under Git. No sample files were moved or deleted.
+11. Added four current project documents and corrected stale README, model, handwriting and development-log wording on that GitHub branch. Compared the branch with `main`: 11 documentation files changed, no model or Python source files changed. Opened draft pull request [#2](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/2) for review; it has not been merged.
 
 ## Next recorded steps
 
-- Add the updated project records to the private GitHub review branch and inspect its pull-request diff before any merge to `main`.
+- Review draft pull request #2 with the team and merge when the wording is accepted. The documentation branch is not yet `main`.
 - Establish a genuine local clone of the existing GitHub repository when Git command-line network/authentication works, then compare and move any needed Desktop-only changes into that clone.
 - Decide hosting, public access, image retention, instructor acceptance and the final date before deployment. The current local model and app remain available for course preparation.
 
