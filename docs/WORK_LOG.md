@@ -35,10 +35,16 @@ This log records completed actions, evidence, decisions and open work. It is a r
 11. Added four current project documents and corrected stale README, model, handwriting and development-log wording on that GitHub branch. Compared the branch with `main`: 11 documentation files changed, no model or Python source files changed. Opened draft pull request [#2](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/2) for review; it has not been merged.
 12. Copied the four new project records into the Desktop guided project's `docs/` folder and added a root `README.md` there, so they can be opened beside the app in VS Code. These Desktop copies are not automatically synchronized with the GitHub branch.
 
+## 9 October 2026 — Working-copy reconciliation
+
+- Found a Git clone nested at `CC ESE 2/cc-ese-handwritten-digit-recognition/`. Its `origin` is the existing private GitHub repository; local `main` and GitHub `main` both pointed to `c1396be724dca6485128cbdc44cffe0ae6ccba88`. Pull request #2 was merged on 8 October. The parent workspace itself remains outside Git.
+- Compared the eight guided Python steps in the parent workspace with the clone. Their model, evaluation, preprocessing and app logic match; the report output name and wording were adapted for the repository. The original baseline model and the fine-tuned candidate are different artifacts by design and are not the app model.
+- Chose the clone as the working source for the team app and its future GitHub deployment. Updated the repository, parent-workspace and Desktop guidance to identify the correct folder. No baseline model, candidate model, source photograph, personal sample or per-writer prediction file was moved into Git.
+
 ## Next recorded steps
 
-- Review draft pull request #2 with the team and merge when the wording is accepted. The documentation branch is not yet `main`.
-- Establish a genuine local clone of the existing GitHub repository when Git command-line network/authentication works, then compare and move any needed Desktop-only changes into that clone.
+- Make further app changes in the clone and push a reviewed branch to the existing repository. Check whether Git command-line authentication can push from this computer.
+- Review issue #1 against the completed handwriting pilot and record any remaining evaluation work.
 - Decide hosting, public access, image retention, instructor acceptance and the final date before deployment. The current local model and app remain available for course preparation.
 
 ## Documentation rule for future work
