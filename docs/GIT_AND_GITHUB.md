@@ -33,14 +33,14 @@ Official explanations: [Pro Git: version control](https://git-scm.com/book/en/v2
 - The private repository is [Shorya-Raj/cc-ese-handwritten-digit-recognition](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition). At the audit, `main` pointed to commit `ecd3c14e28cb33875d8c6cc5eca138d15dc1dd98` and had three commits. It includes the guided app, model, evaluation, README, contributor guide and an open issue for real-handwriting evaluation.
 - The Desktop `Handwritten Digit Recognition` folder and the original `CC ESE 2` workspace both contain project files, but `git rev-parse --show-toplevel` reports **neither is a Git repository**. Neither folder can `git pull` or show local project commit history as it stands.
 - The Desktop guided model exactly matches the model in GitHub. Many text files are distinct copies due to repository layout and wording changes. Their contents must be compared, not blindly overwritten.
-- The GitHub `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. The Desktop `.gitignore` does not exclude its corresponding `guided_build/artifacts/real_handwriting/` folder, where one saved original/prepared image pair and a CSV currently exist.
+- The GitHub `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. The Desktop `.gitignore` originally missed its corresponding `guided_build/artifacts/real_handwriting/` folder, where one saved original/prepared image pair and a CSV currently exist. The protective rule was added on 8 October.
 - The GitHub repository is **private**. A future public Streamlit app, if chosen, would have its own access and data-flow implications; repository privacy is a separate setting.
 
 ## 3. Is Git necessary here?
 
 Git is **strongly useful** for this team project because several people may edit code and documents, the trained model/results need an identifiable version, and Streamlit Community Cloud deploys from a GitHub repository. The project already has a GitHub repository, so the correct next local setup is to **clone that existing repository**, not create a second one or run `git init` in an old copy. There is no need to adopt advanced Git features, Git LFS, submodules, or a complex branching strategy for this small project.
 
-The current execution environment could read GitHub through the connected GitHub app but a normal `git ls-remote` could not reach `github.com:443`; an elevated attempt did not return and was stopped. This is an access limitation of the local Git command in this session. It does not mean the repository is missing. A browser sign-in does not automatically configure Git command-line authentication. Until cloning works, repository documentation can be prepared locally and added to a review branch through the GitHub connector. Do **not** create an unrelated local history to work around failed cloning.
+The current execution environment can read GitHub through the connected GitHub app. A normal sandboxed `git ls-remote` could not connect to `github.com:443`. An elevated check with credential prompts disabled reached GitHub but stopped at `could not read Username` for this private repository. A browser sign-in does not automatically configure Git command-line authentication. Until the user's Git CLI sign-in is available, repository documentation is being maintained on a review branch through the GitHub connector. Do **not** create an unrelated local history to work around failed cloning.
 
 ## 4. Safe first clone in VS Code, when Git CLI access works
 
@@ -91,7 +91,7 @@ For a later change, start a **new** branch from the updated `main`. Do not keep 
 6. If a sensitive file is already tracked, adding it to `.gitignore` **does not remove it**. Stop and handle the tracked file and history carefully; [Git's official gitignore documentation](https://git-scm.com/docs/gitignore/) explicitly says ignore rules affect intentionally untracked files.
 7. Record changes to the model, preprocessing, dataset split and metrics together. A result without its code/model version is easy to misinterpret.
 
-GitHub currently has an appropriate ignore rule for its own `digit_recognition/artifacts/real_handwriting/` path. The Desktop folder should receive a matching `guided_build/artifacts/real_handwriting/` rule before anyone turns that old folder into a Git repository or stages it elsewhere. The safest route is still a fresh clone of the existing remote, where the correct repository rule is already present.
+GitHub currently has an appropriate ignore rule for its own `digit_recognition/artifacts/real_handwriting/` path. A matching Desktop rule for `guided_build/artifacts/real_handwriting/` was added on 8 October. The safest ongoing route is still a fresh clone of the existing remote, where the repository rule and history are both present.
 
 ## 7. What we will and will not version
 
