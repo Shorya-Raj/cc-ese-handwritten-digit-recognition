@@ -1,6 +1,6 @@
 # Handwritten digit model: architecture and data flow
 
-This document summarizes the image pipeline, CNN architecture, training, and evaluation. Each item maps to a numbered script in the repository.
+This document summarizes the image pipeline, CNN architecture, training, and evaluation. Each item maps to a numbered script in the repository. For the later seven-writer pilot and current model status, see [the experiment record](../docs/MODEL_AND_EXPERIMENTS.md).
 
 ## 1. Image-to-prediction flow
 
@@ -95,7 +95,7 @@ The app shows the **original** and **processed** pictures side by side. If the p
 
 ## 8. When more images are worth using
 
-We already used the standard MNIST training split of 60,000 labelled pictures. Adding rotated or shifted copies can help only if they match the errors we see in our actual app. Our next evidence is a small set of real team handwriting, recorded using `step_08_app.py` and reviewed with `HANDWRITING_EVALUATION.md`.
+We already used the standard MNIST training split of 60,000 labelled pictures. Adding rotated or shifted copies can help only if they match the errors we see in our actual app. A 140-crop, seven-writer pilot has now been recorded separately. It did not improve either writer check after fine-tuning, so the original guided model remains active. A stronger future check would use new writers who were not involved in the pilot.
 
 If errors mostly come from bad cropping or background handling, improve preparation first. If clear, well-prepared digits repeatedly fail in the same way, gather similar labelled examples or try targeted augmentation. Compare the changed model with the earlier one on the **same saved real examples**, and keep the MNIST test set separate from training.
 
@@ -104,6 +104,6 @@ If errors mostly come from bad cropping or background handling, improve preparat
 1. Open `step_03_model.py` on the left and this guide on the right. Run Step 3 to see the 34,826-parameter layer summary.
 2. Open `MODEL_EVALUATION.md` in Markdown preview to inspect each graph, especially where validation loss stopped improving.
 3. Open `step_07_prepare_upload.py` and `artifacts/prepared_preview.png` together to connect each image transformation with what the model sees.
-4. Open the local app at `http://localhost:8502`, upload `first_mnist_digit.png`, and compare the original and processed images. Then try a digit you wrote yourself and save its correct label in the app.
+4. Open the local app at the address printed by Streamlit, upload `first_mnist_digit.png`, and compare the original and processed images. Then try a digit you wrote yourself. Save a labelled example only in the local app and only with the contributor's agreement.
 
 If you deliberately retrain by running Step 4 again, run Steps 5 and 6 afterward so the evaluation files and report describe the newly saved model rather than the previous one.
