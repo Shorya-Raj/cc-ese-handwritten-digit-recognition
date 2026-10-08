@@ -24,7 +24,9 @@ These figures describe performance on MNIST. They do not establish accuracy on t
 - [Git and GitHub guide](docs/GIT_AND_GITHUB.md)
 - [Dated work log](docs/WORK_LOG.md)
 
-The original course workspace and Desktop guided folder are separate local copies, not Git checkouts. Use a fresh clone of this existing repository for routine Git work; see the guide before moving files or committing.
+This repository is the team's versioned source for the current app, guided model, and evaluation. The original course workspace contains a distinct baseline and a later experimental fine-tuning run; the Desktop guided folder is another local copy. On the project computer, an existing clone of this repository is nested inside `CC ESE 2`. Work in that clone, or make a fresh clone on another computer. Compare any older copy before transferring a change; do not replace the guided app or model with the separate baseline or fine-tuned candidate.
+
+For a future Streamlit Community Cloud deployment, select this GitHub repository, branch `main`, and entrypoint `digit_recognition/step_08_app.py`. The dependency file is the root `requirements.txt`, and the app loads `digit_recognition/artifacts/digit_model.keras`. Local edits become part of the GitHub source only after they are committed and pushed. Hosting has not been completed; review the app's local sample-saving feature before public deployment.
 
 ## Run the application
 

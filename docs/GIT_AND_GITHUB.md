@@ -1,6 +1,6 @@
 # Git and GitHub for this project
 
-**Updated:** 8 October 2026. This guide explains the terms, the actual repository state, and the safest next workflow for a group that is new to Git.
+**Updated:** 9 October 2026. This guide explains the terms, the current repository state, and the next workflow for a group that is new to Git.
 
 ## 1. The simple distinction
 
@@ -30,33 +30,32 @@ Official explanations: [Pro Git: version control](https://git-scm.com/book/en/v2
 
 ## 2. What exists today
 
-- The private repository is [Shorya-Raj/cc-ese-handwritten-digit-recognition](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition). At the audit, `main` pointed to commit `ecd3c14e28cb33875d8c6cc5eca138d15dc1dd98` and had three commits. It includes the guided app, model, evaluation, README, contributor guide and an open issue for real-handwriting evaluation.
-- The Desktop `Handwritten Digit Recognition` folder and the original `CC ESE 2` workspace both contain project files, but `git rev-parse --show-toplevel` reports **neither is a Git repository**. Neither folder can `git pull` or show local project commit history as it stands.
-- The Desktop guided model exactly matches the model in GitHub. Many text files are distinct copies due to repository layout and wording changes. Their contents must be compared, not blindly overwritten.
+- The private repository is [Shorya-Raj/cc-ese-handwritten-digit-recognition](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition). On 9 October, GitHub `main` and the local clone both pointed to `c1396be724dca6485128cbdc44cffe0ae6ccba88`. Pull request #2 had been merged. The repository had four commits and 37 tracked files, including the guided app, its model, evaluation, README and contributor guide.
+- On this computer, `CC ESE 2/cc-ese-handwritten-digit-recognition/` is a Git clone connected to that repository. The parent `CC ESE 2` folder and the separate Desktop guided project are not Git repositories. Open the **nested clone** in VS Code for team app work and Git commands.
+- The Desktop guided scripts and repository scripts have matching model, evaluation, preprocessing and app logic. Repository paths, report wording and the report output filename differ. The Desktop guided model matches the repository model. The parent workspace's earlier baseline model and fine-tuned candidate are intentionally different artifacts. Compare changes before transferring them into the clone.
 - The GitHub `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. The Desktop `.gitignore` originally missed its corresponding `guided_build/artifacts/real_handwriting/` folder, where one saved original/prepared image pair and a CSV currently exist. The protective rule was added on 8 October.
 - The GitHub repository is **private**. A future public Streamlit app, if chosen, would have its own access and data-flow implications; repository privacy is a separate setting.
 
 ## 3. Is Git necessary here?
 
-Git is **strongly useful** for this team project because several people may edit code and documents, the trained model/results need an identifiable version, and Streamlit Community Cloud deploys from a GitHub repository. The project already has a GitHub repository, so the correct next local setup is to **clone that existing repository**, not create a second one or run `git init` in an old copy. There is no need to adopt advanced Git features, Git LFS, submodules, or a complex branching strategy for this small project.
+Git is **strongly useful** for this team project because several people may edit code and documents, the trained model/results need an identifiable version, and Streamlit Community Cloud deploys from a GitHub repository. The project already has a GitHub repository and a local clone on this computer. Use that clone for team work, or clone the same repository on another computer. Do not start a second Git history inside an older copy. There is no need to adopt Git LFS, submodules, or a complex branching strategy for this small project.
 
-The current execution environment can read GitHub through the connected GitHub app. A normal sandboxed `git ls-remote` could not connect to `github.com:443`. An elevated check with credential prompts disabled reached GitHub but stopped at `could not read Username` for this private repository. A browser sign-in does not automatically configure Git command-line authentication. Until the user's Git CLI sign-in is available, repository documentation is being maintained on a review branch through the GitHub connector. Do **not** create an unrelated local history to work around failed cloning.
+The existing local clone has the correct `origin` URL and matches GitHub `main` as of 9 October. This verifies its repository identity; it does not by itself verify that this computer can push a new branch. If pushing asks for authentication, sign in through Git Credential Manager or VS Code. Do not paste tokens into code or commit them.
 
-## 4. Safe first clone in VS Code, when Git CLI access works
+## 4. Open the working clone in VS Code
 
-Choose a new, empty destination folder. From its parent directory in the VS Code PowerShell terminal:
+From the `CC ESE 2` parent folder in PowerShell:
 
 ```powershell
-git clone https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition.git
-cd cc-ese-handwritten-digit-recognition
+cd .\cc-ese-handwritten-digit-recognition
 git status
 git remote -v
 git log --oneline -5
 ```
 
-This new folder becomes the Git working copy. In VS Code, use **File → Open Folder** on it. Keep the old Desktop folder untouched until its unique files have been compared and any intended changes have been moved carefully. GitHub access to a private repository may require your GitHub sign-in through Git Credential Manager or VS Code. Do not paste tokens into code or commit them.
+In VS Code, use **File → Open Folder** on `cc-ese-handwritten-digit-recognition`, not its parent folder, when editing the team app. The older workspace holds a separate baseline and handwriting pilot; do not copy either model over the guided model in the clone.
 
-If the first command says the destination already exists, inspect that folder rather than forcing the clone over it. If it cannot connect or authenticate, fix network/credential access before doing anything that changes Git history.
+On another computer, clone the same private repository into an empty destination using `git clone https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition.git`. GitHub access may require your account's permission to the private repository.
 
 ## 5. One small group change, step by step
 
@@ -91,7 +90,7 @@ For a later change, start a **new** branch from the updated `main`. Do not keep 
 6. If a sensitive file is already tracked, adding it to `.gitignore` **does not remove it**. Stop and handle the tracked file and history carefully; [Git's official gitignore documentation](https://git-scm.com/docs/gitignore/) explicitly says ignore rules affect intentionally untracked files.
 7. Record changes to the model, preprocessing, dataset split and metrics together. A result without its code/model version is easy to misinterpret.
 
-GitHub currently has an appropriate ignore rule for its own `digit_recognition/artifacts/real_handwriting/` path. A matching Desktop rule for `guided_build/artifacts/real_handwriting/` was added on 8 October. The safest ongoing route is still a fresh clone of the existing remote, where the repository rule and history are both present.
+GitHub currently has an appropriate ignore rule for its own `digit_recognition/artifacts/real_handwriting/` path. A matching Desktop rule for `guided_build/artifacts/real_handwriting/` was added on 8 October. Use the existing clone or a new clone of this repository so the repository rule and history are present.
 
 ## 7. What we will and will not version
 
@@ -106,5 +105,5 @@ The repository already versions one small `.keras` model file. Git can store it,
 
 ## 8. When hosting is chosen
 
-Streamlit Community Cloud can deploy an app from a GitHub repository/branch/entry file. That makes keeping the repository organized and current important. Deployment itself is a separate task: verify the source branch, selected entry file, package installation, model path, privacy behavior and live URL. A successful `git push` or pull request is evidence of a code update, **not** evidence that the cloud app works.
+For a future Streamlit Community Cloud deployment, select `Shorya-Raj/cc-ese-handwritten-digit-recognition`, branch `main`, and entry file `digit_recognition/step_08_app.py`. The root `requirements.txt` lists dependencies, and the app loads `digit_recognition/artifacts/digit_model.keras`. Streamlit reads the GitHub branch; edits left only in the parent workspace or unpushed local clone will not appear there. Before hosting, verify package installation, model loading, the live URL, and image-data behavior. The current app still offers a local sample-save button, which needs a deployment decision before public use.
 

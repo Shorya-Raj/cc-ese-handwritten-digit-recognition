@@ -1,7 +1,9 @@
 # Project audit and work required
 
-**Date:** 8 October 2026  
-**Scope:** Existing handwritten digit recognizer, its saved evidence, local folders, and the private GitHub repository. This is a documentation and repository audit. No model training or cloud deployment was performed for this audit.
+**Initial audit:** 8 October 2026
+
+**Repository and folder status updated:** 9 October 2026
+**Scope:** Existing handwritten digit recognizer, its saved evidence, local folders, and the private GitHub repository. No model training or cloud deployment was performed for this audit.
 
 ## 1. The project in one diagram
 
@@ -9,14 +11,14 @@
 flowchart LR
   A["Original CC ESE 2 workspace<br/>first baseline + later fine-tuning pilot"]
   B["Desktop guided project<br/>eight teaching steps + evaluated model + local app"]
-  C["Private GitHub repository<br/>main branch, versioned app and evaluation"]
+  C["Git clone and private GitHub repository<br/>versioned app and evaluation"]
   D["Cloud-hosted app<br/>not deployed"]
-  A -->|"reference and pilot results"| B
-  B -->|"model file matches; text files are separate copies"| C
+  A -->|"compare intended changes"| C
+  B -->|"same guided code and model; separate copy"| C
   C -. "future deployment after preparation" .-> D
 ```
 
-The folders are **not automatically synchronized**. The two local folders have no `.git` directory. The GitHub repository has its own history and files. Treat each as a separate location until a proper Git clone and comparison establishes one working copy.
+The folders are **not automatically synchronized**. The parent `CC ESE 2` folder and separate Desktop guided folder have no `.git` directory. A Git clone now exists at `CC ESE 2/cc-ese-handwritten-digit-recognition/` and is the team's working copy for the current app. Its `origin` points to the private GitHub repository. The older baseline and fine-tuning experiment remain reference material; compare their files before transferring an intended change into the clone.
 
 ## 2. Verified inventory
 
@@ -24,7 +26,7 @@ The folders are **not automatically synchronized**. The two local folders have n
 | --- | --- | --- |
 | Original `CC ESE 2` workspace | `train_model.py`, `app.py`, original `artifacts/digit_model.keras`, `PROJECT_PLAN.md`, guided source copies, `fine_tune_handwriting.py`, fine-tuning results, course report | No local Git repository. The original baseline model is a distinct file from the guided model. Several plan statements predate the handwriting pilot. |
 | Desktop `Handwritten Digit Recognition` | `guided_build/step_01_data.py` through `step_08_app.py`, `guided_build/artifacts/` with model, metrics and plots, `TRAINING_REPORT.md`, journal and walkthrough, `.venv` | Working guided project from the earlier build. One local labelled sample is present under `guided_build/artifacts/real_handwriting/`. No local Git repository. Its `.gitignore` originally missed that folder; the protective rule was added on 8 October. |
-| GitHub `Shorya-Raj/cc-ese-handwritten-digit-recognition` | Private repository; `main` at `ecd3c14e28cb33875d8c6cc5eca138d15dc1dd98` when audited; 3 commits; 33 tracked files; code under `digit_recognition/`; 1 open handwriting-evaluation issue | The repository has the guided model, app, metrics, plots, README and contributor docs. Its `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. No raw handwriting images were present in the examined tree. Several documents still say handwriting evaluation and cloud work are deferred. |
+| Git clone and GitHub `Shorya-Raj/cc-ese-handwritten-digit-recognition` | On 9 October, local and GitHub `main` both pointed to `c1396be724dca6485128cbdc44cffe0ae6ccba88`; 4 commits and 37 tracked files. The clone is nested in `CC ESE 2/`. | This is the versioned team source for the guided model, app, metrics, plots and current documentation. The handwriting sample folder is ignored. The original workspace's separate baseline and fine-tuning candidate are not loaded by the app. |
 | Streamlit Community Cloud | Proposed hosting destination | No deployed app or public URL was verified. |
 
 **Model identity check:** The Desktop guided model and GitHub's tracked `digit_recognition/artifacts/digit_model.keras` have the same Git blob ID, `b5d125bbe90725b2f98b8d0583ba42b3e1743629`. The Desktop model's SHA-256 is `8663ea03af57702a9ea388da72c43eb7ba176aaf9f7562c413e1371fb237ab65` (452,769 bytes). The original workspace baseline has a different SHA-256, `af1722e8762c599709eae90e4c5ecd245bb6e1f712d8c4f315bd1bcec9f91079` (452,763 bytes). Same reported MNIST accuracy does not mean the files are identical.
@@ -44,16 +46,16 @@ The folders are **not automatically synchronized**. The two local folders have n
 
 The application loads the guided model artifact. The fine-tuned candidate is separate and is **not** the app model. See [MODEL_AND_EXPERIMENTS.md](MODEL_AND_EXPERIMENTS.md) for exact settings and evidence.
 
-## 4. Work that is necessary now
+## 4. Status and remaining work
 
-| Priority | Work | Reason and completion evidence |
+| Status | Work | Evidence or next action |
 | --- | --- | --- |
-| A | Keep one accurate model-and-experiments record | The repository's current docs predate the seven-writer pilot. Record dataset, split, settings, results, artifact identities and limits without claiming real-world accuracy. |
-| A | Bring README, project overview and issue context up to date | Team members should see that the local demo exists, the pilot happened, the fine-tuned copy was not adopted, and cloud hosting remains proposed. |
-| A | Establish a safe Git workflow | The private GitHub repository exists, but the local folders are unversioned copies. Clone the existing repository when Git network access is available; do not initialize either old folder and create unrelated history. Document branch/commit/PR steps. |
-| A | Prevent accidental upload of personal samples | The Desktop ignore rule was added on 8 October; the GitHub ignore file already covered its corresponding repository path. Review staged files before every commit because ignore rules do not protect files that are already tracked. |
-| B | Prepare a clean deployment package if Streamlit is chosen | A public app should not expose the current sample-saving feature. Check dependency compatibility, model path, privacy notice, build logs and fresh-browser behavior after a host is chosen. |
-| B | Finish course evidence | Confirm date and platform with the instructor; prepare CO3 comparison, CO4 risk/data-flow explanation, literature citations, running-example rehearsal and viva. |
+| Done | Record the seven-writer pilot accurately | `MODEL_AND_EXPERIMENTS.md` and the README distinguish MNIST results, writer checks and the inactive fine-tuned candidate. |
+| Done | Establish a local Git working copy | The nested clone has the correct `origin` and matched GitHub `main` at `c1396be` on 9 October. Pull request #2 was merged. |
+| Ongoing | Keep team status aligned | Update the open handwriting issue to reflect the completed pilot and any remaining evaluation work. Make app and documentation changes in the clone, then push through the team's Git workflow. |
+| Ongoing | Keep personal samples out of Git | Both the Desktop and repository ignore rules cover their respective handwriting sample folders. Review staged files because ignore rules do not remove files already tracked. |
+| Pending | Prepare a clean deployment package if Streamlit is chosen | A public app should not expose the current sample-saving feature. Check dependency compatibility, model path, privacy notice, build logs and fresh-browser behavior after a host is chosen. |
+| Pending | Finish course evidence | Confirm date and platform with the instructor; prepare CO3 comparison, CO4 risk/data-flow explanation, literature citations, running-example rehearsal and viva. |
 
 ## 5. Work that is not justified now
 
@@ -70,14 +72,13 @@ The application loads the guided model artifact. The fine-tuned candidate is sep
 1. Instructor confirmation of the presentation date: student update says by **18 October**; the evaluation PDF labels **19 October 2026** tentative.
 2. Whether Streamlit Community Cloud and a public app URL satisfy the instructor's current interpretation of “cloud-based application.” The reviewed PDFs name no mandatory provider.
 3. Final image-data policy for a hosted app. The safest proposed public-demo behavior is prediction without intentional storage; the current local app still has a save button.
-4. Which folder becomes the team's ongoing Git working copy after cloning the existing private repository. The remote repository is the only currently versioned source.
-5. Git command-line authentication on this computer. The normal sandbox could not connect to GitHub. A later elevated, non-interactive check reached GitHub but reported `could not read Username` for the private repository. The GitHub connector can read and edit it; a local clone still needs the user's Git CLI authentication.
+4. Whether the team's Git command-line authentication can push a new branch from the local clone. The clone's existence and matching commit do not prove push access.
 
 ## 7. Evidence and limits of this audit
 
-- GitHub repository metadata, `main` tree, recent commits, issue #1, README and source files were read through the GitHub connector on 8 October 2026.
-- Both local folders were listed and inspected. `git rev-parse --show-toplevel` reported neither to be a Git repository.
+- GitHub repository metadata, `main` tree, recent commits, issue #1, README and source files were read through the GitHub connector on 8 October 2026; GitHub `main` and pull request #2 were checked again on 9 October.
+- Both original local folders were listed and inspected. Their top-level directories are not Git repositories. The nested clone's local status, remote URL and commit were checked on 9 October.
 - File identities were checked with Git blob IDs and SHA-256. GitHub and Desktop summary values were compared directly.
-- Existing saved metrics and source code were inspected. This audit did not retrain, re-evaluate the model, open the app, or test a cloud deployment.
+- Existing saved metrics and source code were inspected. The guided scripts in the original workspace and clone have matching model, evaluation, preprocessing and app logic. Repository paths, report wording and the report output filename differ. This audit did not retrain, re-evaluate the model, open the app, or test a cloud deployment.
 - For course alignment, see `STREAMLIT_CLOUD_COURSE_ALIGNMENT_REPORT.html` in the original workspace. Instructor approval and presentation grading remain external decisions.
 
