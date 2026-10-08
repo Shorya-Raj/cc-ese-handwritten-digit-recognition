@@ -23,7 +23,7 @@ The folders are **not automatically synchronized**. The two local folders have n
 | Location | Contains | Verified state |
 | --- | --- | --- |
 | Original `CC ESE 2` workspace | `train_model.py`, `app.py`, original `artifacts/digit_model.keras`, `PROJECT_PLAN.md`, guided source copies, `fine_tune_handwriting.py`, fine-tuning results, course report | No local Git repository. The original baseline model is a distinct file from the guided model. Several plan statements predate the handwriting pilot. |
-| Desktop `Handwritten Digit Recognition` | `guided_build/step_01_data.py` through `step_08_app.py`, `guided_build/artifacts/` with model, metrics and plots, `TRAINING_REPORT.md`, journal and walkthrough, `.venv` | Working guided project from the earlier build. One local labelled sample is present under `guided_build/artifacts/real_handwriting/`. No local Git repository. Its `.gitignore` does not exclude that sample folder. |
+| Desktop `Handwritten Digit Recognition` | `guided_build/step_01_data.py` through `step_08_app.py`, `guided_build/artifacts/` with model, metrics and plots, `TRAINING_REPORT.md`, journal and walkthrough, `.venv` | Working guided project from the earlier build. One local labelled sample is present under `guided_build/artifacts/real_handwriting/`. No local Git repository. Its `.gitignore` originally missed that folder; the protective rule was added on 8 October. |
 | GitHub `Shorya-Raj/cc-ese-handwritten-digit-recognition` | Private repository; `main` at `ecd3c14e28cb33875d8c6cc5eca138d15dc1dd98` when audited; 3 commits; 33 tracked files; code under `digit_recognition/`; 1 open handwriting-evaluation issue | The repository has the guided model, app, metrics, plots, README and contributor docs. Its `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. No raw handwriting images were present in the examined tree. Several documents still say handwriting evaluation and cloud work are deferred. |
 | Streamlit Community Cloud | Proposed hosting destination | No deployed app or public URL was verified. |
 
@@ -51,7 +51,7 @@ The application loads the guided model artifact. The fine-tuned candidate is sep
 | A | Keep one accurate model-and-experiments record | The repository's current docs predate the seven-writer pilot. Record dataset, split, settings, results, artifact identities and limits without claiming real-world accuracy. |
 | A | Bring README, project overview and issue context up to date | Team members should see that the local demo exists, the pilot happened, the fine-tuned copy was not adopted, and cloud hosting remains proposed. |
 | A | Establish a safe Git workflow | The private GitHub repository exists, but the local folders are unversioned copies. Clone the existing repository when Git network access is available; do not initialize either old folder and create unrelated history. Document branch/commit/PR steps. |
-| A | Prevent accidental upload of personal samples | The Desktop ignore file misses `guided_build/artifacts/real_handwriting/`. The GitHub ignore file covers its corresponding repository path. Review staged files before every commit. |
+| A | Prevent accidental upload of personal samples | The Desktop ignore rule was added on 8 October; the GitHub ignore file already covered its corresponding repository path. Review staged files before every commit because ignore rules do not protect files that are already tracked. |
 | B | Prepare a clean deployment package if Streamlit is chosen | A public app should not expose the current sample-saving feature. Check dependency compatibility, model path, privacy notice, build logs and fresh-browser behavior after a host is chosen. |
 | B | Finish course evidence | Confirm date and platform with the instructor; prepare CO3 comparison, CO4 risk/data-flow explanation, literature citations, running-example rehearsal and viva. |
 
@@ -71,7 +71,7 @@ The application loads the guided model artifact. The fine-tuned candidate is sep
 2. Whether Streamlit Community Cloud and a public app URL satisfy the instructor's current interpretation of “cloud-based application.” The reviewed PDFs name no mandatory provider.
 3. Final image-data policy for a hosted app. The safest proposed public-demo behavior is prediction without intentional storage; the current local app still has a save button.
 4. Which folder becomes the team's ongoing Git working copy after cloning the existing private repository. The remote repository is the only currently versioned source.
-5. Git command-line connectivity/authentication on this computer. `git ls-remote` could not reach GitHub from the current sandbox; an elevated attempt did not return before being stopped. The GitHub connector can read and edit the private repository, so this is a local CLI access issue, not proof that the repo is unavailable.
+5. Git command-line authentication on this computer. The normal sandbox could not connect to GitHub. A later elevated, non-interactive check reached GitHub but reported `could not read Username` for the private repository. The GitHub connector can read and edit it; a local clone still needs the user's Git CLI authentication.
 
 ## 7. Evidence and limits of this audit
 
