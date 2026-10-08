@@ -33,6 +33,7 @@ This log records completed actions, evidence, decisions and open work. It is a r
 9. Created GitHub branch `docs/project-audit-2026-10-08` from the verified `main` commit. It is a separate review branch; `main` was not changed by branch creation.
 10. Added `guided_build/artifacts/real_handwriting/` to the Desktop project's `.gitignore` so the existing personal sample folder is excluded if that old folder is ever staged under Git. No sample files were moved or deleted.
 11. Added four current project documents and corrected stale README, model, handwriting and development-log wording on that GitHub branch. Compared the branch with `main`: 11 documentation files changed, no model or Python source files changed. Opened draft pull request [#2](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/2) for review; it has not been merged.
+12. Copied the four new project records into the Desktop guided project's `docs/` folder and added a root `README.md` there, so they can be opened beside the app in VS Code. These Desktop copies are not automatically synchronized with the GitHub branch.
 
 ## Next recorded steps
 
