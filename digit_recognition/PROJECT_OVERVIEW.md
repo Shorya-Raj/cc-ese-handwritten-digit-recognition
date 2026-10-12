@@ -41,4 +41,4 @@ The later seven-writer pilot yielded 60% on writer 6 and 50% on writer 7 for bot
 - [Project audit and Git status](../docs/PROJECT_AUDIT.md)
 - [Numbered, commented build scripts](.)
 
-**Current stage (12 October 2026):** guided MNIST benchmark, local Streamlit demo, and seven-writer handwriting pilot are recorded. The temporary AWS Lambda ZIP endpoint is deployed in `ap-southeast-2` and passed live sample, unauthorized, and malformed-input checks. The demo is hybrid: its interface stays on the presenting laptop. Recheck the endpoint before presentation and remove AWS resources afterward.
+**Current stage (13 October 2026):** guided MNIST benchmark, local Streamlit demo, and seven-writer handwriting pilot are recorded. The temporary AWS Lambda ZIP endpoint is deployed in `ap-southeast-2` and passed fresh live sample, unauthorized, malformed-input, and Streamlit upload checks. The demo is hybrid: its interface stays on the presenting laptop. Recheck the endpoint before presentation and remove AWS resources afterward.
