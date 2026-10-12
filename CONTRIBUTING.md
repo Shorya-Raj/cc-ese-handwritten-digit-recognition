@@ -17,6 +17,6 @@ Keep pull requests focused and include evidence for changes to model behavior or
 - State whether a result comes from MNIST or newly collected handwriting.
 - Do not commit virtual environments, credentials, or original personal handwriting samples.
 - Get each contributor's agreement before collecting handwriting; labels are sufficient.
-- Cloud deployment is under consideration, not implemented. If it is approved, review data handling and disable the current local sample-save feature for the public app before deployment.
+- The current demo has a local Streamlit page and temporary AWS Lambda inference. Keep the Function URL and bearer token out of Git. The local sample-save feature must be reviewed before any public hosting of the Streamlit page.
 - See [the project audit](docs/PROJECT_AUDIT.md), [model and experiment record](docs/MODEL_AND_EXPERIMENTS.md), and [Git guide](docs/GIT_AND_GITHUB.md) before changing the app or its claims.
 - There is no automated test suite. For relevant changes, run the affected script or launch the local app and describe what you checked in the pull request.

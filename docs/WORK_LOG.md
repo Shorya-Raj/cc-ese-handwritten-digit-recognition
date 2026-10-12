@@ -41,11 +41,33 @@ This log records completed actions, evidence, decisions and open work. It is a r
 - Compared the eight guided Python steps in the parent workspace with the clone. Their model, evaluation, preprocessing and app logic match; the report output name and wording were adapted for the repository. The original baseline model and the fine-tuned candidate are different artifacts by design and are not the app model.
 - Chose the clone as the working source for the team app and its future GitHub deployment. Updated the repository, parent-workspace and Desktop guidance to identify the correct folder. No baseline model, candidate model, source photograph, personal sample or per-writer prediction file was moved into Git.
 
+## 10 October 2026 — Hybrid AWS inference preparation
+
+- Added an optional AWS inference client to the local Streamlit app. It sends the preprocessed 28 × 28 grayscale pixels to the endpoint and shows whether predictions run locally or in AWS. Local model inference remains available when `.streamlit/secrets.toml` is absent.
+- Prepared an initial Lambda container handler, Dockerfile and AWS SAM template in the parent workspace. This prototype was superseded by the ONNX ZIP deployment recorded on 12 October; the container files are not part of this repository update. The deployed handler checks a random bearer token, validates input shape/range, and returns ten scores without storing request images or predictions.
+- Updated the root README and project docs with the data flow, setup, teardown, and current deployment status. No AWS resources were created: Docker, AWS CLI, SAM CLI, and local AWS credentials are not present on this computer. The endpoint and live cloud inference therefore remain pending.
+
+## 12 October 2026 — Temporary hybrid AWS deployment
+
+- Installed the project's full local Python requirements and verified that TensorFlow loads the guided Keras model. The user's AWS CLI 2.37.12 was already installed; signed in with `aws login` for `ap-southeast-2` and confirmed the account's active Free plan. A later API read in the same session reported $120 remaining credits; consult the billing console for the current value rather than treating a screenshot or earlier reading as fixed.
+- Exported the guided Keras model to `cloud/digit_model.onnx`. On 1,000 MNIST test images, ONNX and Keras agreed on all top-1 and top-3 predictions; maximum score difference was `7.15e-7`. Built a Python 3.12 x86_64 Lambda ZIP with Linux wheels, about 62 MiB compressed and 192 MiB uncompressed. Docker and SAM were unnecessary.
+- Created a dedicated execution role, private S3 package bucket, Lambda function `cc-ese-digit-inference` in `ap-southeast-2`, Function URL, random bearer token held in the Lambda environment and ignored local `.streamlit/secrets.toml`, and a three-day CloudWatch log retention policy. The account rejected an optional two-execution reserved-concurrency limit because it would leave fewer than ten unreserved executions; no concurrency cap was installed.
+- Live checks returned 401 without a token, 400 for a malformed 28 × 28 array, and digit 5 for the included sample. Cloud and local Keras scores differed by at most `1.19e-7` on that sample. The existing Streamlit server on `127.0.0.1:8502` returned HTTP 200 and its page displayed `Inference: AWS Lambda`. Uploading `first_mnist_digit.png` through the Streamlit page produced digit 5 with a 98.7% largest model score, completing the local page to AWS endpoint to result check.
+- Replaced the earlier container instructions with the ZIP build and named-resource teardown script. The app remains hybrid, and the endpoint should be rechecked before the test and presentation days, then deleted after evaluation. Secrets and the generated ZIP are ignored by Git.
+- Added `setup-local.ps1` and `start-demo.ps1` so the user can recheck/install packages and launch the app independently. The setup script ran successfully and found all application packages and AWS CLI. Python could not create a `.venv` inside this OneDrive checkout; the incomplete folder was removed, and the scripts use the working Python 3.12 user installation. The start script ran successfully while the app was already on port 8502 and opened the existing server rather than failing on the occupied port.
+
+## 12 October 2026 — Repository handoff
+
+- Reviewed the local AWS demo changes for a GitHub update. The versioned files include the optional Streamlit client, Lambda handler, ONNX model export, ZIP builder, deployment verification and teardown scripts, local launch scripts, requirements, and dated documentation.
+- Rechecked that the Lambda function was active and its last update successful in `ap-southeast-2`; the Function URL was configured with `AuthType NONE`, and the CloudWatch log group had three-day retention. The bearer token check runs inside the handler, so the endpoint still consumes an invocation for an unauthorized request.
+- Updated the historical audit and generated MNIST report wording so their original results remain dated while the current hybrid demo status is clear. The interface remains local and the seven-writer pilot results have not changed.
+- Checked the files intended for Git against the ignored local URL and bearer token. The `.streamlit/secrets.toml` file, generated deployment ZIP, build directory, and personal handwriting samples are excluded from the GitHub update.
+
 ## Next recorded steps
 
-- Make further app changes in the clone and push a reviewed branch to the existing repository. Check whether Git command-line authentication can push from this computer.
+- Make further app changes in the clone and use a reviewed branch and pull request in the existing repository.
 - Review issue #1 against the completed handwriting pilot and record any remaining evaluation work.
-- Decide hosting, public access, image retention, instructor acceptance and the final date before deployment. The current local model and app remain available for course preparation.
+- Rehearse the final live presentation with a new agreed handwritten sample, confirm professor-facing presentation material, and run the teardown script after the final demo. The current local model and app remain available as a fallback.
 
 ## Documentation rule for future work
 

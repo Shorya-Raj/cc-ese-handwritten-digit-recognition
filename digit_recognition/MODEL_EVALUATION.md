@@ -138,7 +138,7 @@ This score is useful for comparing model outputs, but it is not proof that a sta
 - The current model used all 60,000 images in the standard MNIST training split. Other labeled handwriting datasets exist, but a larger count by itself does not show that those examples match our intended users.
 - A phone photo or drawn digit can differ in background, thickness, position, size, lighting, and color from MNIST. The local app now prepares and displays these inputs, but the team still needs to try genuine handwriting.
 - The displayed softmax value is a model output, not proof that the predicted probability is calibrated. An uncertain or wrong real-world image still needs visible handling in the app.
-- At the time of this MNIST report, real-handwriting performance had not yet been measured. A later 140-crop pilot is recorded separately; it is exploratory and does not establish general real-world accuracy. Cloud deployment has still not been verified.
+- At the time of this MNIST report, real-handwriting performance had not yet been measured. A later 140-crop pilot is recorded separately; it is exploratory and does not establish general real-world accuracy. A temporary AWS inference endpoint was later checked on 12 October 2026; see the root README and work log.
 
 **Next action:** try the local app with labeled team examples, inspect original and prepared images, and decide whether the observed failures call for preprocessing changes, targeted augmentation, or more labeled examples. Keep the 10,000 MNIST test images out of training.
 
@@ -182,7 +182,7 @@ These are public self-reports, so they help generate troubleshooting ideas but d
 4. **Consider EMNIST Digits only as a candidate follow-up dataset.** It is larger and compatible in image size, but its source does not guarantee it matches our users. A comparison should use the same held-out real-handwriting set and report the outcome by input style and digit.
 5. **Do not over-read a high softmax score.** Our own MNIST evaluation found 25 wrong predictions whose top score was at least 90%. The app therefore calls it a model score and displays alternatives rather than treating it as a guarantee.
 
-These are research-informed options, not changes made to the guided model. A small labelled handwriting pilot was later run, with no improvement on its writer checks. A new-writer check would provide more independent evidence. Cloud hosting remains proposed rather than verified.
+These are research-informed options, not changes made to the guided model. A small labelled handwriting pilot was later run, with no improvement on its writer checks. A new-writer check would provide more independent evidence. The local Streamlit page later gained optional AWS Lambda inference; the page itself has not been publicly hosted.
 
 ## 8. Reproduce the saved results and plots
 
