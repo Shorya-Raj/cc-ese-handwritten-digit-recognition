@@ -5,6 +5,8 @@
 **Repository and folder status updated:** 9 October 2026
 **Scope:** Existing handwritten digit recognizer, its saved evidence, local folders, and the private GitHub repository. No model training or cloud deployment was performed for this audit.
 
+**Later status (12 October 2026):** This is a historical 8–9 October audit. The team subsequently deployed a temporary AWS Lambda inference endpoint for the local Streamlit app. Streamlit itself is still running on the presenting laptop, not on Streamlit Community Cloud. See the [README](../README.md) and [dated work log](WORK_LOG.md) for the live-check evidence and teardown plan. The older deployment-pending statements below describe the state at audit time.
+
 ## 1. The project in one diagram
 
 ```mermaid

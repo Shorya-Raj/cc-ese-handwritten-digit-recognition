@@ -103,7 +103,7 @@ GitHub currently has an appropriate ignore rule for its own `digit_recognition/a
 
 The repository already versions one small `.keras` model file. Git can store it, though Git cannot display a useful line-by-line diff of model weights. If future experiments produce many large models, decide on a separate artifact strategy then; no additional tool is necessary now.
 
-## 8. When hosting is chosen
+## 8. Current hybrid demo
 
-For a future Streamlit Community Cloud deployment, select `Shorya-Raj/cc-ese-handwritten-digit-recognition`, branch `main`, and entry file `digit_recognition/step_08_app.py`. The root `requirements.txt` lists dependencies, and the app loads `digit_recognition/artifacts/digit_model.keras`. Streamlit reads the GitHub branch; edits left only in the parent workspace or unpushed local clone will not appear there. Before hosting, verify package installation, model loading, the live URL, and image-data behavior. The current app still offers a local sample-save button, which needs a deployment decision before public use.
+The current demo is a local Streamlit interface with inference in AWS Lambda. The Lambda ZIP is built from Linux-compatible Python wheels with `cloud/build_zip.py`, and the local interface reads its AWS URL and token from the ignored `.streamlit/secrets.toml`. Streamlit preprocessing sends only the prepared 28 × 28 pixel array; the app's labelled-sample button continues to save the original and prepared images on the local computer. The temporary endpoint was deployed and checked on 12 October 2026. Follow the root README's demo and teardown steps. The token, URL configuration, and deployment ZIP are ignored; edits left only in the parent workspace or unpushed local clone will not appear in GitHub.
 

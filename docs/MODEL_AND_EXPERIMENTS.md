@@ -1,6 +1,6 @@
 # Model, data, and experiment record
 
-**Updated:** 8 October 2026  
+**Updated:** 12 October 2026
 **Purpose:** Explain what was built, exactly which results were measured, which model the app uses, and what the current evidence cannot establish.
 
 ## 1. Status at a glance
@@ -13,7 +13,7 @@
 | MNIST benchmark | 9,892 correct of 10,000 held-out test images: **98.92%**. |
 | Real handwriting evidence | A small, exploratory 140-crop, seven-writer fine-tuning study. A separate one-page Paint demonstration was 10/10, but it is not an accuracy benchmark. |
 | Fine-tuned model | Saved separately as an experimental candidate. It was **not adopted**, because the two writer checks did not improve. |
-| Cloud model | None. Hosting is proposed; no cloud inference endpoint was verified. |
+| Cloud model | ONNX export of the same guided Keras model, used by a temporary AWS Lambda endpoint checked on 12 October. The Streamlit interface remains local. See the [work log](WORK_LOG.md). |
 
 ## 2. Data and model pipeline
 

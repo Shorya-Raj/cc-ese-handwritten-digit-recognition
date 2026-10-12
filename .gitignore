@@ -14,6 +14,8 @@ ENV/
 !.env.example
 .streamlit/secrets.toml
 .streamlit/credentials.toml
+cloud/*.zip
+cloud/.build/
 # Keys and certificates
 *.pem
 *.key

@@ -13,8 +13,8 @@ from pathlib import Path
 from uuid import uuid4
 
 import numpy as np
+import requests
 import streamlit as st
-import tensorflow as tf
 from PIL import Image
 
 from step_07_prepare_upload import prepare_image, to_model_batch
@@ -25,9 +25,39 @@ MODEL_PATH = Path(__file__).with_name("artifacts") / "digit_model.keras"
 
 
 @st.cache_resource(show_spinner="Loading the trained model...")
-def load_model() -> tf.keras.Model:
+def load_model():
     """Load the model once and reuse it for later image uploads."""
+    import tensorflow as tf
+
     return tf.keras.models.load_model(MODEL_PATH)
+
+
+def cloud_settings() -> tuple[str, str] | None:
+    """Read optional AWS Function URL credentials from Streamlit secrets."""
+    secrets_file = Path(__file__).resolve().parents[1] / ".streamlit" / "secrets.toml"
+    if not secrets_file.is_file():
+        return None
+    try:
+        url = str(st.secrets.get("inference_url", "")).strip()
+        token = str(st.secrets.get("inference_token", "")).strip()
+    except (FileNotFoundError, RuntimeError):
+        return None
+    return (url, token) if url and token else None
+
+
+def predict_in_cloud(model_input: np.ndarray, url: str, token: str) -> np.ndarray:
+    """Send only the prepared 28x28 grayscale pixels to the AWS service."""
+    response = requests.post(
+        url,
+        json={"pixels": model_input[0, :, :, 0].tolist()},
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=25,
+    )
+    response.raise_for_status()
+    scores = np.asarray(response.json()["scores"], dtype=np.float32)
+    if scores.shape != (10,) or not np.isfinite(scores).all():
+        raise ValueError("The cloud service returned an invalid prediction.")
+    return scores
 
 
 def main() -> None:
@@ -36,9 +66,15 @@ def main() -> None:
     st.title("Handwritten Digit Recognition")
     st.write("Show the model **one handwritten digit**. Use dark ink on plain white paper, or draw one digit in Paint and upload the saved PNG. Keep the digit large and centered.")
 
-    if not MODEL_PATH.is_file():
+    cloud = cloud_settings()
+    if cloud is None and not MODEL_PATH.is_file():
         st.error("The trained model file is missing. Run step_04_train.py first.")
         st.stop()
+
+    if cloud is None:
+        st.caption("Inference: this computer (local model)")
+    else:
+        st.caption("Inference: AWS Lambda. The original photo stays in this app; only its prepared 28 × 28 pixel array is sent to AWS.")
 
     input_method = st.radio("How will you provide the digit?", ["Upload an image", "Take a photo"], horizontal=True)
     if input_method == "Upload an image":
@@ -60,7 +96,17 @@ def main() -> None:
         return
 
     # SECTION 4 — Ask the saved CNN for ten digit scores
-    scores = load_model().predict(model_input, verbose=0)[0]
+    try:
+        if cloud is None:
+            scores = load_model().predict(model_input, verbose=0)[0]
+        else:
+            scores = predict_in_cloud(model_input, *cloud)
+    except requests.RequestException as error:
+        st.error(f"Could not reach the AWS inference service: {error}")
+        return
+    except (KeyError, ValueError) as error:
+        st.error(f"The inference service returned an invalid result: {error}")
+        return
     predicted_digit = int(np.argmax(scores))
     highest_score = float(scores[predicted_digit])
     top_three = np.argsort(scores)[::-1][:3]
