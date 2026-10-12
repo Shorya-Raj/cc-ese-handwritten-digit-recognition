@@ -62,6 +62,7 @@ This log records completed actions, evidence, decisions and open work. It is a r
 - Rechecked that the Lambda function was active and its last update successful in `ap-southeast-2`; the Function URL was configured with `AuthType NONE`, and the CloudWatch log group had three-day retention. The bearer token check runs inside the handler, so the endpoint still consumes an invocation for an unauthorized request.
 - Updated the historical audit and generated MNIST report wording so their original results remain dated while the current hybrid demo status is clear. The interface remains local and the seven-writer pilot results have not changed.
 - Checked the files intended for Git against the ignored local URL and bearer token. The `.streamlit/secrets.toml` file, generated deployment ZIP, build directory, and personal handwriting samples are excluded from the GitHub update.
+- Published the reviewed source and documentation on branch `feature/hybrid-aws-demo-2026-10-12` and opened [pull request #4](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/4) into `main`. It is ready for the teammate review required by `CONTRIBUTING.md`; `main` has not yet been changed by this handoff.
 
 ## Next recorded steps
 
