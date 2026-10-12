@@ -63,6 +63,14 @@ This log records completed actions, evidence, decisions and open work. It is a r
 - Updated the historical audit and generated MNIST report wording so their original results remain dated while the current hybrid demo status is clear. The interface remains local and the seven-writer pilot results have not changed.
 - Checked the files intended for Git against the ignored local URL and bearer token. The `.streamlit/secrets.toml` file, generated deployment ZIP, build directory, and personal handwriting samples are excluded from the GitHub update.
 
+## 13 October 2026 — Deployment and model recheck
+
+- Refreshed the expired AWS CLI session and verified the temporary `cc-ese-digit-inference` function still reports `Active` and `Successful` in `ap-southeast-2` with Python 3.12, 1,024 MB memory, and a 30-second timeout. The deployed code SHA-256 matches the locally built `cloud/digit_lambda.zip` byte for byte; the ONNX model is included in the versioned repository.
+- Confirmed the private deployment bucket still contains the 65,008,288-byte ZIP, blocks all four forms of public access, and uses SSE-S3 (`AES256`) encryption. The dedicated Lambda execution role remains present. CloudWatch retains its log group for three days.
+- Confirmed the Function URL still uses `AuthType NONE`. Its two public resource-policy statements are limited respectively to `FunctionUrlAuthType=NONE` and `InvokedViaFunctionUrl=true`; the handler checks the bearer token. This remains a temporary public URL, and an unauthorized request can still invoke the handler before receiving 401. The AWS account API reported Free/Active with 120 USD credits at this check; the figure can change.
+- Ran `cloud/verify_deployment.py` again: an unauthenticated request returned 401, a malformed pixel array returned 400, and the included sample returned digit 5. The maximum absolute difference between AWS and local Keras scores was `1.19e-7` on that sample. The local Streamlit health endpoint returned HTTP 200. Uploading `digit_recognition/first_mnist_digit.png` through the live Streamlit page showed `Inference: AWS Lambda`, digit 5, and a 98.7% top score.
+- Fetched GitHub and confirmed local `main` and `origin/main` both pointed to merged PR #4 commit `c694bd4` before this dated log update. This check covers the included sample and current service state; it does not measure accuracy on new handwriting, test the camera path, or guarantee the endpoint will remain available on a later presentation day.
+
 ## Next recorded steps
 
 - Make further app changes in the clone and use a reviewed branch and pull request in the existing repository.

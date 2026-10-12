@@ -34,7 +34,7 @@ The AWS Function URL is publicly reachable, but the handler requires a long rand
 
 ### Current deployment and demo
 
-On 12 October 2026 the function `cc-ese-digit-inference` was created in `ap-southeast-2` with a private S3 package bucket, an execution role, a three-day CloudWatch log retention policy, and an HTTPS Function URL. The URL and token are saved only in the ignored `.streamlit/secrets.toml` on this computer. The live endpoint returned 401 for an unauthenticated call, 400 for a malformed input, and the same sample prediction as local Keras with a maximum score difference of `1.19e-7`. The ONNX and Keras models agreed on top-1 and top-3 for 1,000 MNIST test images.
+On 12 October 2026 the function `cc-ese-digit-inference` was created in `ap-southeast-2` with a private S3 package bucket, an execution role, a three-day CloudWatch log retention policy, and an HTTPS Function URL. The URL and token are saved only in the ignored `.streamlit/secrets.toml` on this computer. A fresh live check on 13 October returned 401 for an unauthenticated call, 400 for a malformed input, and the same sample prediction as local Keras with a maximum score difference of `1.19e-7`. The Streamlit upload flow also returned digit 5. The ONNX and Keras models agreed on top-1 and top-3 for 1,000 MNIST test images during the original model conversion.
 
 The account did not permit reserving two Lambda concurrent executions because it would reduce unreserved concurrency below AWS's minimum of ten. The URL and random token have not been published, and the Free plan limits out-of-pocket spending while it remains active; this is still a temporary public endpoint, so delete it promptly after the course demo.
 
