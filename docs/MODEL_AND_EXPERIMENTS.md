@@ -1,6 +1,6 @@
 # Model, data, and experiment record
 
-**Updated:** 12 October 2026
+**Updated:** 14 October 2026
 **Purpose:** Explain what was built, exactly which results were measured, which model the app uses, and what the current evidence cannot establish.
 
 ## 1. Status at a glance
@@ -112,7 +112,7 @@ The experiment's reported base-model SHA-256 is `8663ea03af57702a9ea388da72c43eb
 
 | Artifact | Meaning | Handling |
 | --- | --- | --- |
-| `digit_model.keras` | Guided model loaded by the local app | Versioned in the private GitHub repository; preserve its identity when presenting results. |
+| `digit_model.keras` | Guided model loaded by the local app | Versioned in the GitHub repository; preserve its identity when presenting results. |
 | `training_history.json` | Eight per-epoch train/validation metrics | Use for learning curves; not a final test result. |
 | `test_results.json`, `confusion_matrix.csv` | MNIST test metrics and class confusions | Source for the 98.92% statement. |
 | `MODEL_EVALUATION.md` / `TRAINING_REPORT.md` and plot PNGs | Human-readable run explanation and charts | Verify they refer to the same saved run before presenting. |

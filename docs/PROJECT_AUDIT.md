@@ -3,7 +3,9 @@
 **Initial audit:** 8 October 2026
 
 **Repository and folder status updated:** 9 October 2026
-**Scope:** Existing handwritten digit recognizer, its saved evidence, local folders, and the private GitHub repository. No model training or cloud deployment was performed for this audit.
+**Scope:** Existing handwritten digit recognizer, its saved evidence, local folders, and the GitHub repository. No model training or cloud deployment was performed for this audit.
+
+**Current visibility note (14 October 2026):** GitHub reports this repository as public. Earlier sections preserve their dated records and previously reported visibility; this update does not determine when the repository became public.
 
 **Later status (12 October 2026):** This is a historical 8–9 October audit. The team subsequently deployed a temporary AWS Lambda inference endpoint for the local Streamlit app. Streamlit itself is still running on the presenting laptop, not on Streamlit Community Cloud. See the [README](../README.md) and [dated work log](WORK_LOG.md) for the live-check evidence and teardown plan. The older deployment-pending statements below describe the state at audit time.
 
@@ -84,3 +86,18 @@ The application loads the guided model artifact. The fine-tuned candidate is sep
 - Existing saved metrics and source code were inspected. The guided scripts in the original workspace and clone have matching model, evaluation, preprocessing and app logic. Repository paths, report wording and the report output filename differ. This audit did not retrain, re-evaluate the model, open the app, or test a cloud deployment.
 - For course alignment, see `STREAMLIT_CLOUD_COURSE_ALIGNMENT_REPORT.html` in the original workspace. Instructor approval and presentation grading remain external decisions.
 
+
+## Current verified snapshot — reconciled 14 October 2026
+
+> This snapshot supersedes the current-status interpretation of the 8–9 October audit below. The older sections remain intact as historical evidence and are not rewritten as if those facts were current then.
+
+| Area | Latest evidence | Current interpretation |
+| --- | --- | --- |
+| Git/GitHub | Local `main` and `origin/main` matched at `87cea5b6e59314d047760479149d90a3d42feb92`; working tree was clean before this documentation update. PR #4 and PR #5 are included. GitHub reported the repository public on 14 October. | This nested clone is the team's versioned source. Parent-workspace and Desktop folders remain separate copies. Review every staged file for public release before pushing. |
+| Model | Guided CNN has 34,826 parameters and 98.92% accuracy on 10,000 held-out MNIST images. The separate seven-writer pilot did not improve either writer check: writer 6 remained 60%, writer 7 remained 50%. | The guided model remains active. MNIST accuracy is not real-world handwriting accuracy. |
+| App/cloud path | Local Streamlit UI and Python preprocessing; prepared 28×28 grayscale pixels go to optional AWS Lambda inference. Local Keras inference remains fallback. On 13 October, the live check recorded digit 5, 401 without token, 400 for malformed input, and AWS/local score difference no greater than `1.19e-7` on the sample. | The hybrid demo passed the recorded end-to-end sample check on 13 October. This documentation update did not recheck current availability. |
+| AWS safeguards/limits | At the 13 October check, Lambda was Active/Successful in `ap-southeast-2`; Function URL used `AuthType NONE` with a bearer-token check in the handler; deployment bucket blocked public access and used SSE-S3; CloudWatch retention was three days. | An unauthorized request can invoke the function before receiving 401. Recheck before a demo and remove temporary resources after course use. |
+| Handwriting samples | The saved pilot report covers 140 crops from seven writers. | A new large classmate collection and further training are not evidenced in the current log. Treat as pending until samples, consent, handling, and results are recorded. |
+| Course delivery | Several 12-slide deck variants, a four-speaker plan, and four speaker guides were created in the parent workspace on 14 October. The plan names `Handwritten_Digit_Cloud_12_Slides_Updated.pptx`, while newer exports exist. | Select one final deck and align the guides; actual speaker agreement, rehearsal, rubric/CO/PO review, and instructor guidance remain to be verified. These candidate presentation files are not in the GitHub repository. |
+
+The cloud state above was **last verified 13 October**, not on this audit-update date. See [WORK_LOG.md](WORK_LOG.md) for detailed deployment records and [LOG_INDEX.md](LOG_INDEX.md) for the complete log inventory. The older sections below intentionally retain their point-in-time status.

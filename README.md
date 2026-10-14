@@ -15,7 +15,7 @@ This repository contains a CNN that classifies grayscale images of handwritten d
 - **34,826 trainable parameters**.
 - Of the 108 test errors, 25 received a top softmax score of at least 90%. These scores are not calibrated probabilities.
 
-These figures describe performance on MNIST. They do not establish accuracy on the team's handwriting or on arbitrary camera images. A 140-crop, seven-writer handwriting pilot has since been run. It did not improve either writer check after fine-tuning, so the original guided model remains the app model. Read [the model and experiment record](docs/MODEL_AND_EXPERIMENTS.md) for the split, results, and limitations. A temporary hybrid AWS inference endpoint was deployed and checked on 12 October 2026; check its current AWS state before a later demo.
+These figures describe performance on MNIST. They do not establish accuracy on the team's handwriting or on arbitrary camera images. A 140-crop, seven-writer handwriting pilot has since been run. It did not improve either writer check after fine-tuning, so the original guided model remains the app model. Read [the model and experiment record](docs/MODEL_AND_EXPERIMENTS.md) for the split, results, and limitations. A temporary hybrid AWS inference endpoint was deployed on 12 October and last checked live on 13 October 2026; check its current AWS state before a later demo.
 
 ## Current project records
 
@@ -23,8 +23,11 @@ These figures describe performance on MNIST. They do not establish accuracy on t
 - [Model and experiments](docs/MODEL_AND_EXPERIMENTS.md)
 - [Git and GitHub guide](docs/GIT_AND_GITHUB.md)
 - [Dated work log](docs/WORK_LOG.md)
+- [Project log and evidence index](docs/LOG_INDEX.md)
 
 This repository is the team's versioned source for the current app, guided model, and evaluation. The original course workspace contains a distinct baseline and a later experimental fine-tuning run; the Desktop guided folder is another local copy. On the project computer, an existing clone of this repository is nested inside `CC ESE 2`. Work in that clone, or make a fresh clone on another computer. Compare any older copy before transferring a change; do not replace the guided app or model with the separate baseline or fine-tuned candidate.
+
+**Repository visibility:** GitHub reported this repository as public on 14 October 2026. Keep credentials and personal handwriting out of all commits. Several presentation variants and a speaker plan exist in the parent project folder; choose one deck and align its speaker guides before sharing a presentation package here.
 
 ## Hybrid demo: local Streamlit + AWS inference
 
@@ -102,4 +105,4 @@ Do not commit credentials, virtual environments, or original personal handwritin
 
 ## License
 
-No license has been selected. Keep the repository private unless the group agrees on its distribution and licensing.
+No license has been selected. The repository is currently public; agree on distribution and licensing with the group before claiming reuse terms.

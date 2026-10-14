@@ -193,3 +193,13 @@ The original guided model and saved MNIST results were compared with the private
 The Desktop project and original workspace are not Git checkouts. The existing private repository has its own `main` history; a fresh clone is the correct local Git setup when network/authentication allows it. The Desktop sample folder has personal handwriting and is not covered by that folder's short `.gitignore`; the repository's own ignore rule covers its corresponding path. See `docs/PROJECT_AUDIT.md` and `docs/GIT_AND_GITHUB.md` for the inventory and safe workflow.
 
 No training, model replacement, cloud deployment, or merge to `main` was performed during this audit. The repository documentation changes are on branch `docs/project-audit-2026-10-08` for review.
+
+## 12–13 October 2026 — Hybrid inference integration
+
+The local Streamlit application gained an optional AWS Lambda inference path. Image orientation, cropping, centering, and 28×28 preparation stay in Python on the presenting computer; the API receives the prepared pixel array. If AWS settings are unavailable, the app uses the local Keras model. A converted ONNX model is packaged for Lambda. Conversion parity was recorded on 1,000 MNIST images (same top-1/top-3; maximum score difference `7.15e-7`).
+
+The 12 October deployment and 13 October recheck are recorded in [`../docs/WORK_LOG.md`](../docs/WORK_LOG.md). On 13 October, the included sample completed the live local Streamlit → Lambda → prediction path; recorded score difference against local Keras was at most `1.19e-7` on that sample. This verifies that sample path at that time, not new-writer accuracy, camera input, or future endpoint availability. The local app/model remains fallback. No new training or active-model replacement occurred.
+
+## 14 October 2026 — Log reconciliation
+
+The numbered development history was cross-checked against the current repository and its chronological work log. The work log is authoritative for GitHub/Git, AWS deployment/rechecks, and current project status; this file remains the record of guided model-building stages. No code execution or model/deployment change was part of this documentation reconciliation. GitHub reports the repository as public on 14 October; the earlier private-repository wording above remains a dated historical record, and this review did not establish when visibility changed.
