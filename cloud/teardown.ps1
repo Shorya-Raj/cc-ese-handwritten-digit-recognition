@@ -1,7 +1,15 @@
 # Delete only the course demo's named Lambda, execution role, log group, and ZIP bucket.
-# Run from any directory after the evaluation: .\cloud\teardown.ps1
+# Run from the repository root after the evaluation: .\cloud\teardown.ps1
 $ErrorActionPreference = 'Stop'
-$aws = 'C:\Users\shory\AppData\Local\Programs\Amazon\AWSCLIV2\aws.exe'
+$awsCommand = Get-Command aws -ErrorAction SilentlyContinue
+if ($awsCommand) {
+    $aws = $awsCommand.Source
+} else {
+    $aws = Join-Path $env:LOCALAPPDATA 'Programs\Amazon\AWSCLIV2\aws.exe'
+    if (-not (Test-Path -LiteralPath $aws)) {
+        throw 'AWS CLI v2 was not found. Add aws to PATH or install AWS CLI v2 from AWS.'
+    }
+}
 $env:AWS_DEFAULT_REGION = 'ap-southeast-2'
 $env:AWS_PAGER = ''
 $account = (& $aws sts get-caller-identity --query Account --output text).Trim()

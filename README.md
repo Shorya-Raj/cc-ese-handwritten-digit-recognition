@@ -41,10 +41,9 @@ On 12 October 2026 the function `cc-ese-digit-inference` was created in `ap-sout
 
 The account did not permit reserving two Lambda concurrent executions because it would reduce unreserved concurrency below AWS's minimum of ten. The URL and random token have not been published, and the Free plan limits out-of-pocket spending while it remains active; this is still a temporary public endpoint, so delete it promptly after the course demo.
 
-From the current repository on this computer, start or restart the app in PowerShell:
+From the repository root in PowerShell, start or restart the app:
 
 ```powershell
-cd 'C:\Users\shory\OneDrive\Documents\ChatGPT\CC ESE 2\cc-ese-handwritten-digit-recognition'
 & .\start-demo.ps1
 ```
 
@@ -54,19 +53,18 @@ To rebuild the AWS ZIP later, run `python cloud/build_zip.py` with Python 3.12. 
 
 ### After the evaluation
 
-After the evaluation, run `.\cloud\teardown.ps1` from the repository root while signed in to the same AWS account. If the AWS CLI session expired, refresh it with `& 'C:\Users\shory\AppData\Local\Programs\Amazon\AWSCLIV2\aws.exe' login --region ap-southeast-2` first. The script deletes the named Lambda function, its CloudWatch log group, the one deployment ZIP and S3 bucket, and the dedicated execution role. Confirm they are gone in AWS, then remove `.streamlit/secrets.toml` to make the app use the included local model. Deleting AWS resources does not delete the source or local model. Check the AWS billing/free-plan page afterward for any final usage.
+After the evaluation, run `.\cloud\teardown.ps1` from the repository root while signed in to the same AWS account. If the AWS CLI session expired, refresh it with `aws login --region ap-southeast-2` first. The script deletes the named Lambda function, its CloudWatch log group, the one deployment ZIP and S3 bucket, and the dedicated execution role. Confirm they are gone in AWS, then remove `.streamlit/secrets.toml` to make the app use the included local model. Deleting AWS resources does not delete the source or local model. Check the AWS billing/free-plan page afterward for any final usage.
 
 ## Run the application
 
 On this computer, Python 3.12, AWS CLI 2, Streamlit, TensorFlow, and the remaining packages have been installed and checked. Run the one-time setup again whenever you need to repair or check them:
 
 ```powershell
-cd 'C:\Users\shory\OneDrive\Documents\ChatGPT\CC ESE 2\cc-ese-handwritten-digit-recognition'
 & .\setup-local.ps1
 & .\start-demo.ps1
 ```
 
-The setup script installs the full `requirements.txt` into this computer's Python user packages, so both AWS inference and the local TensorFlow fallback work. A virtual environment could not be created inside this OneDrive checkout, so the launcher uses the already working Python 3.12 installation. The start script detects the existing server on port 8502 and opens it; otherwise it starts Streamlit in that PowerShell window. Keep the window open during the demo, then press `Ctrl+C` to stop the local page. Stopping Streamlit does not delete or stop the AWS function.
+The setup script installs the full `requirements.txt` into this computer's Python user packages, so both AWS inference and the local TensorFlow fallback work. A virtual environment could not be created inside this OneDrive checkout, so the launcher uses the already working Python 3.12 installation. The launch scripts check standard per-user locations and fall back to the py launcher or PATH rather than depending on one account name. The start script detects the existing server on port 8502 and opens it; otherwise it starts Streamlit in that PowerShell window. Keep the window open during the demo, then press `Ctrl+C` to stop the local page. Stopping Streamlit does not delete or stop the AWS function.
 
 For a fresh computer, clone this repository, install Python 3.12, and run the following commands from the clone. The ignored AWS secrets file is specific to the current computer and is never included in a clone. These commands start the included model locally; configuring AWS inference requires a separate endpoint and token.
 
@@ -80,9 +78,9 @@ In local mode, the app loads `digit_recognition/artifacts/digit_model.keras`. Te
 To retrain and regenerate the evaluation files:
 
 ```powershell
-& 'C:\Users\shory\AppData\Local\Programs\Python\Python312\python.exe' .\digit_recognition\step_04_train.py
-& 'C:\Users\shory\AppData\Local\Programs\Python\Python312\python.exe' .\digit_recognition\step_05_evaluate.py
-& 'C:\Users\shory\AppData\Local\Programs\Python\Python312\python.exe' .\digit_recognition\step_06_report.py
+py -3.12 .\digit_recognition\step_04_train.py
+py -3.12 .\digit_recognition\step_05_evaluate.py
+py -3.12 .\digit_recognition\step_06_report.py
 ```
 
 ## Repository contents

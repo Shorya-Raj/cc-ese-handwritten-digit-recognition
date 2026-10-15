@@ -3,18 +3,30 @@
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
 
-$python = 'C:\Users\shory\AppData\Local\Programs\Python\Python312\python.exe'
-$aws = 'C:\Users\shory\AppData\Local\Programs\Amazon\AWSCLIV2\aws.exe'
+$python = Join-Path $env:LOCALAPPDATA 'Programs\Python\Python312\python.exe'
+$pythonArgs = @()
 if (-not (Test-Path -LiteralPath $python)) {
-    throw "Python 3.12 was not found at $python. Install Python 3.12 from python.org first."
-}
-if (-not (Test-Path -LiteralPath $aws)) {
-    throw "AWS CLI was not found at $aws. Install AWS CLI v2 from AWS first."
+    $pythonLauncher = Get-Command py -ErrorAction SilentlyContinue
+    if ($null -eq $pythonLauncher) {
+        throw 'Python 3.12 was not found. Install it from python.org or make the py launcher available.'
+    }
+    $python = $pythonLauncher.Source
+    $pythonArgs = @('-3.12')
 }
 
-& $python -m pip install --user -r requirements.txt
+$awsCommand = Get-Command aws -ErrorAction SilentlyContinue
+if ($awsCommand) {
+    $aws = $awsCommand.Source
+} else {
+    $aws = Join-Path $env:LOCALAPPDATA 'Programs\Amazon\AWSCLIV2\aws.exe'
+    if (-not (Test-Path -LiteralPath $aws)) {
+        throw 'AWS CLI v2 was not found. Add aws to PATH or install AWS CLI v2 from AWS.'
+    }
+}
+
+& $python @pythonArgs -m pip install --user -r requirements.txt
 if ($LASTEXITCODE -ne 0) { throw 'Python package installation failed.' }
-& $python -c "import importlib.util; names=['streamlit','tensorflow','PIL','numpy','matplotlib','requests']; missing=[n for n in names if importlib.util.find_spec(n) is None]; print('Missing:', missing) if missing else print('All application packages are available'); raise SystemExit(bool(missing))"
+& $python @pythonArgs -c "import importlib.util; names=['streamlit','tensorflow','PIL','numpy','matplotlib','requests']; missing=[n for n in names if importlib.util.find_spec(n) is None]; print('Missing:', missing) if missing else print('All application packages are available'); raise SystemExit(bool(missing))"
 if ($LASTEXITCODE -ne 0) { throw 'One or more application packages could not be imported.' }
 & $aws --version
 if ($LASTEXITCODE -ne 0) { throw 'AWS CLI is installed but failed to start.' }
