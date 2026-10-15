@@ -99,3 +99,12 @@ For each material change, record **date, goal, files changed, reason, settings o
 - Found a 12-slide presentation plan, four speaker-guide documents, and several PowerPoint variants in the parent project folder. The plan names `Handwritten_Digit_Cloud_12_Slides_Updated.pptx`, while newer exports exist, so no slide deck or guides were copied into the repository. Select one deck and align the guides before adding a presentation package to GitHub.
 - The latest AWS evidence remains the live recheck dated 13 October. This update did not invoke AWS, change resources, run the app, or perform a model experiment.
 - Refreshed the parent-workspace reading copies for the audit, work log, model record, and development log. Kept the parent log index and Git guide as workspace-specific navigation documents, with their current visibility and presentation-status notes updated separately.
+
+## 15 October 2026 — Presentation-day Git and launcher review
+
+- Checked the live GitHub repository through its connected API. It is public, and main includes PR #6 at merge commit c76807952aae66bdea237deca1cc714879bca70e. Compared the GitHub commit/PR dates with the saved project logs and experiment results.
+- Added a short explanation to the Git guide showing why an experiment date and its later documentation commit can differ. Kept all earlier work-log dates and Git commit timestamps unchanged.
+- Removed this computer's absolute Windows paths from the README, setup, launcher and teardown scripts. The scripts now look for Python 3.12 in the usual per-user install location or through py, and for AWS CLI on PATH or its usual per-user install location. The launcher health request uses PowerShell's basic parsing option.
+- A local Git fetch did not complete because the network resolver failed to start. GitHub showed remote main at c768079, while the local main and origin/main refs remained at 87cea5b and the active docs branch remained at 2454be1. The remote state was checked through GitHub; no local ref was advanced. No model training, app launch, AWS request, or presentation-day endpoint check was done as part of this review. The latest recorded live AWS check remains 13 October.
+
+Files updated: README.md, setup-local.ps1, start-demo.ps1, cloud/teardown.ps1, docs/GIT_AND_GITHUB.md, docs/LOG_INDEX.md, and docs/WORK_LOG.md. Old revisions remain in Git history; this update changes only the current file versions. No credentials, model files, experiment results, or deployment resources were changed.

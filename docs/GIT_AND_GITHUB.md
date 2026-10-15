@@ -1,6 +1,6 @@
 # Git and GitHub for this project
 
-**Updated:** 14 October 2026. This guide explains the terms, the current repository state, and the next workflow for a group that is new to Git.
+**Updated:** 15 October 2026. This guide explains the terms, the current repository state, and the next workflow for a group that is new to Git.
 
 **Current visibility:** GitHub reported this repository as public on 14 October 2026. Earlier project records called it private; this check confirms today's setting but does not establish when or whether the setting changed. Treat all new commits as publicly visible.
 
@@ -37,12 +37,17 @@ Official explanations: [Pro Git: version control](https://git-scm.com/book/en/v2
 - The Desktop guided scripts and repository scripts have matching model, evaluation, preprocessing and app logic. Repository paths, report wording and the report output filename differ. The Desktop guided model matches the repository model. The parent workspace's earlier baseline model and fine-tuned candidate are intentionally different artifacts. Compare changes before transferring them into the clone.
 - The GitHub `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. The Desktop `.gitignore` originally missed its corresponding `guided_build/artifacts/real_handwriting/` folder, where one saved original/prepared image pair and a CSV currently exist. The protective rule was added on 8 October.
 - Repository visibility and app hosting are separate settings. The GitHub repository is public as of 14 October 2026. The Streamlit page remains local; the AWS Function URL is separately public and uses a handler token check.
+- GitHub main was checked on 15 October and includes merged PR #6 at c76807952aae66bdea237deca1cc714879bca70e.
+
+### Project dates and GitHub history
+
+The work log records when project steps were carried out; GitHub shows when code and documentation were committed or merged. Those dates can differ. For example, the seven-writer pilot is dated 6 October in the saved experiment results, then documented in PR [#2](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/2), which merged on 8 October UTC. The original model and repository appear in commits from 5 October. PRs [#3](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/3) and [#4](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/4) record the source-folder clarification and AWS integration; PR [#5](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/5) records the live check dated 13 October in India; PR [#6](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition/pull/6) merged on 15 October UTC with the status and log updates. GitHub API timestamps use UTC, while the project log uses local dates. When describing the timeline, give the project date and the GitHub date as separate pieces of evidence. See [the work log](WORK_LOG.md) and [model and experiment record](MODEL_AND_EXPERIMENTS.md) for the underlying entries.
 
 ## 3. Is Git necessary here?
 
 Git is **strongly useful** for this team project because several people may edit code and documents, the trained model/results need an identifiable version, and Streamlit Community Cloud deploys from a GitHub repository. The project already has a GitHub repository and a local clone on this computer. Use that clone for team work, or clone the same repository on another computer. Do not start a second Git history inside an older copy. There is no need to adopt Git LFS, submodules, or a complex branching strategy for this small project.
 
-The existing local clone has the correct `origin` URL and matches GitHub `main` as of 9 October. This verifies its repository identity; it does not by itself verify that this computer can push a new branch. If pushing asks for authentication, sign in through Git Credential Manager or VS Code. Do not paste tokens into code or commit them.
+The local clone main and origin/main refs are still at 87cea5b, while GitHub main includes PR #6 at c768079. The active local branch docs/latest-project-status-2026-10-14 is at 2454be1, the PR #6 head. The local fetch failed because the network resolver did not start. Check git status, preserve local edits, then fetch and fast-forward main before starting new work when connectivity returns. This verifies repository identity; it does not by itself verify push access. If pushing asks for authentication, sign in through Git Credential Manager or VS Code. Do not paste tokens into code or commit them.
 
 ## 4. Open the working clone in VS Code
 
