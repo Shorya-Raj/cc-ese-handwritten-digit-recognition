@@ -71,13 +71,31 @@ This log records completed actions, evidence, decisions and open work. It is a r
 - Ran `cloud/verify_deployment.py` again: an unauthenticated request returned 401, a malformed pixel array returned 400, and the included sample returned digit 5. The maximum absolute difference between AWS and local Keras scores was `1.19e-7` on that sample. The local Streamlit health endpoint returned HTTP 200. Uploading `digit_recognition/first_mnist_digit.png` through the live Streamlit page showed `Inference: AWS Lambda`, digit 5, and a 98.7% top score.
 - Fetched GitHub and confirmed local `main` and `origin/main` both pointed to merged PR #4 commit `c694bd4` before this dated log update. This check covers the included sample and current service state; it does not measure accuracy on new handwriting, test the camera path, or guarantee the endpoint will remain available on a later presentation day.
 
-## Next recorded steps
+## Next recorded steps (current as of 14 October)
 
-- Make further app changes in the clone and use a reviewed branch and pull request in the existing repository.
+- Recheck the temporary AWS endpoint and local-to-AWS inference immediately before any presentation; retain local inference as fallback.
+- Select one current 12-slide presentation deck, align the four speaker guides with it, confirm actual speaker assignments and instructor guidance, then rehearse against the course rubric and CO/PO mapping.
 - Review issue #1 against the completed handwriting pilot and record any remaining evaluation work.
-- Rehearse the final live presentation with a new agreed handwritten sample, confirm professor-facing presentation material, and run the teardown script after the final demo. The current local model and app remain available as a fallback.
+- Run the documented teardown after the final cloud demonstration and verify the named temporary resources are removed.
 
 ## Documentation rule for future work
 
 For each material change, record **date, goal, files changed, reason, settings or data used, observed result, where evidence is saved, limitations, and next decision**. When the model changes, also record dataset splits and the exact model artifact identity. Do not silently rewrite a previous experiment's result after a new run; create a new dated run record.
 
+
+## 14 October 2026 — Final log reconciliation
+
+- Reviewed the canonical clone's audit, work log, development log, model/experiment report, current Git history, and duplicate parent-workspace records. No training run, model replacement, AWS deployment change, or endpoint check was performed for this reconciliation.
+- Confirmed the local clone is on `main`, has a clean working tree before these documentation edits, and matched `origin/main` at `87cea5b6e59314d047760479149d90a3d42feb92`. This commit includes merged PR #5. The 13 October entry's reference to `c694bd4` accurately describes the point before PR #5's log update, but is not the current branch head.
+- Added a current-status snapshot to the historical audit and a log index. The parent workspace copies of the audit, work log, and model/experiment report are synchronized to the canonical records.
+- Latest AWS evidence remains dated 13 October. Present endpoint availability, the presentation-time recheck, additional classmate data, professor guidance, and final presentation/viva completion are not established by this documentation pass.
+
+**Files updated:** canonical `docs/PROJECT_AUDIT.md`, `docs/WORK_LOG.md`, `docs/LOG_INDEX.md`, and `digit_recognition/DEVELOPMENT_LOG.md`; synchronized parent copies and a status pointer in `guided_build/BUILD_JOURNAL.md`. No model, training results, personal handwriting images, credentials, or AWS resources were changed.
+
+
+## 14 October 2026 — Visibility and presentation-file review
+
+- Refreshed GitHub `main`; the canonical clone matched `origin/main` at `87cea5b6e59314d047760479149d90a3d42feb92`, including merged PR #5. GitHub repository metadata reports the project repository as public. Updated current README, contributing, Git workflow, model provenance, audit, and index wording; older date-stamped records remain historical and this review did not determine when visibility became public.
+- Found a 12-slide presentation plan, four speaker-guide documents, and several PowerPoint variants in the parent project folder. The plan names `Handwritten_Digit_Cloud_12_Slides_Updated.pptx`, while newer exports exist, so no slide deck or guides were copied into the repository. Select one deck and align the guides before adding a presentation package to GitHub.
+- The latest AWS evidence remains the live recheck dated 13 October. This update did not invoke AWS, change resources, run the app, or perform a model experiment.
+- Refreshed the parent-workspace reading copies for the audit, work log, model record, and development log. Kept the parent log index and Git guide as workspace-specific navigation documents, with their current visibility and presentation-status notes updated separately.

@@ -1,6 +1,8 @@
 # Git and GitHub for this project
 
-**Updated:** 9 October 2026. This guide explains the terms, the current repository state, and the next workflow for a group that is new to Git.
+**Updated:** 14 October 2026. This guide explains the terms, the current repository state, and the next workflow for a group that is new to Git.
+
+**Current visibility:** GitHub reported this repository as public on 14 October 2026. Earlier project records called it private; this check confirms today's setting but does not establish when or whether the setting changed. Treat all new commits as publicly visible.
 
 ## 1. The simple distinction
 
@@ -17,7 +19,7 @@ flowchart LR
 
 | Term | Meaning in this project |
 | --- | --- |
-| Repository | The project plus its Git history. The existing GitHub repo is private. |
+| Repository | The project plus its Git history. This GitHub repository was public at the 14 October 2026 check. |
 | `main` | The shared branch that currently contains the versioned app and model. |
 | Branch | A separate line of work for a change, such as updating documentation, without changing `main` immediately. |
 | Commit | A recorded snapshot with an explanation of what changed. |
@@ -30,11 +32,11 @@ Official explanations: [Pro Git: version control](https://git-scm.com/book/en/v2
 
 ## 2. What exists today
 
-- The private repository is [Shorya-Raj/cc-ese-handwritten-digit-recognition](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition). On 9 October, GitHub `main` and the local clone both pointed to `c1396be724dca6485128cbdc44cffe0ae6ccba88`. Pull request #2 had been merged. The repository had four commits and 37 tracked files, including the guided app, its model, evaluation, README and contributor guide.
+- The repository is [Shorya-Raj/cc-ese-handwritten-digit-recognition](https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition). On 9 October, GitHub `main` and the local clone both pointed to `c1396be724dca6485128cbdc44cffe0ae6ccba88`. Pull request #2 had been merged. The repository had four commits and 37 tracked files, including the guided app, its model, evaluation, README and contributor guide. The 14 October visibility check reports the repository as public; the earlier recorded visibility was not independently reconstructed.
 - On this computer, `CC ESE 2/cc-ese-handwritten-digit-recognition/` is a Git clone connected to that repository. The parent `CC ESE 2` folder and the separate Desktop guided project are not Git repositories. Open the **nested clone** in VS Code for team app work and Git commands.
 - The Desktop guided scripts and repository scripts have matching model, evaluation, preprocessing and app logic. Repository paths, report wording and the report output filename differ. The Desktop guided model matches the repository model. The parent workspace's earlier baseline model and fine-tuned candidate are intentionally different artifacts. Compare changes before transferring them into the clone.
 - The GitHub `.gitignore` excludes `digit_recognition/artifacts/real_handwriting/`. The Desktop `.gitignore` originally missed its corresponding `guided_build/artifacts/real_handwriting/` folder, where one saved original/prepared image pair and a CSV currently exist. The protective rule was added on 8 October.
-- The GitHub repository is **private**. A future public Streamlit app, if chosen, would have its own access and data-flow implications; repository privacy is a separate setting.
+- Repository visibility and app hosting are separate settings. The GitHub repository is public as of 14 October 2026. The Streamlit page remains local; the AWS Function URL is separately public and uses a handler token check.
 
 ## 3. Is Git necessary here?
 
@@ -55,7 +57,7 @@ git log --oneline -5
 
 In VS Code, use **File → Open Folder** on `cc-ese-handwritten-digit-recognition`, not its parent folder, when editing the team app. The older workspace holds a separate baseline and handwriting pilot; do not copy either model over the guided model in the clone.
 
-On another computer, clone the same private repository into an empty destination using `git clone https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition.git`. GitHub access may require your account's permission to the private repository.
+On another computer, clone the repository into an empty destination using `git clone https://github.com/Shorya-Raj/cc-ese-handwritten-digit-recognition.git`.
 
 ## 5. One small group change, step by step
 
@@ -97,7 +99,7 @@ GitHub currently has an appropriate ignore rule for its own `digit_recognition/a
 | Include in Git | Keep local or decide separately |
 | --- | --- |
 | Python source, requirements, README, instructions, architecture and experiment records | Virtual environment, caches and editor-specific files |
-| The selected small guided model and reproducible MNIST metric files already in the private repo | Original contributor handwriting photos and app-saved samples |
+| The selected small guided model and reproducible MNIST metric files already in the repository | Original contributor handwriting photos and app-saved samples |
 | Plot images needed to understand documented results | Credentials, secret files and personal absolute paths |
 | Reviewable documentation changes | Unproven replacement models or huge duplicate experiment artifacts without an agreed purpose |
 
@@ -105,5 +107,5 @@ The repository already versions one small `.keras` model file. Git can store it,
 
 ## 8. Current hybrid demo
 
-The current demo is a local Streamlit interface with inference in AWS Lambda. The Lambda ZIP is built from Linux-compatible Python wheels with `cloud/build_zip.py`, and the local interface reads its AWS URL and token from the ignored `.streamlit/secrets.toml`. Streamlit preprocessing sends only the prepared 28 × 28 pixel array; the app's labelled-sample button continues to save the original and prepared images on the local computer. The temporary endpoint was deployed and checked on 12 October 2026. Follow the root README's demo and teardown steps. The token, URL configuration, and deployment ZIP are ignored; edits left only in the parent workspace or unpushed local clone will not appear in GitHub.
+The current demo is a local Streamlit interface with inference in AWS Lambda. The Lambda ZIP is built from Linux-compatible Python wheels with `cloud/build_zip.py`, and the local interface reads its AWS URL and token from the ignored `.streamlit/secrets.toml`. Streamlit preprocessing sends only the prepared 28 × 28 pixel array; the app's labelled-sample button continues to save the original and prepared images on the local computer. The temporary endpoint was deployed on 12 October and last checked live on 13 October 2026. Follow the root README's demo and teardown steps. The token, URL configuration, and deployment ZIP are ignored; edits left only in the parent workspace or unpushed local clone will not appear in GitHub.
 
